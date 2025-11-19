@@ -31,21 +31,19 @@ ASTRA combines three key components.
 
 ### Structured Teamwork Model
 
-The system provides a simple and universal approach for student projects.
-
-- formulating tasks and breaking them into smaller units  
-- tracking progress of the group
-- maintaining transparency and a predictable rhythm of work  
+The system provides a simple and universal approach for student projects:
+- formulating tasks and breaking them into smaller units,
+- tracking progress of the group,
+- maintaining transparency and a predictable rhythm of work.
 
 This model serves as a reference point for evaluating the actual work of each group.
 
 ### Automated Data Collection
 
-ASTRA draws on information from the tools students already use to help the group reflect on their workflow and improve their collaboration.
-
-- GitHub or GitLab: commits, pull requests, merge requests,activity patterns  
-- Trello: task movement, deadlines, participant activity  
-- Google Docs: revisions, authorship changes, documentdevelopment  
+ASTRA draws on information from the tools students already use to help the group reflect on their workflow and improve their collaboration:
+- GitHub or GitLab: commits, pull requests, merge requests,activity patterns,
+- Trello: task movement, deadlines, participant activity,
+- Google Docs: revisions, authorship changes, documentdevelopment.
 
 Access is limited to the materials explicitly provided by the group.
 
@@ -58,7 +56,7 @@ Based on the collected data ASTRA provides the group with the following.
 - indicators of workflow pacing  
 
 **Process Insight**  
-- signs of inconsistent pacing  
+- signs of inconsistent pacing 
 - patterns that may slow down task progression
 
 **Recommendations**  
@@ -77,9 +75,9 @@ One student creates a group and invites the others.
 **3. Connecting Tools**
 
 The group adds links to documents and tools from which theywant to receive analytics:
-- repository in GitLab or GitHub  
-- Trello board  
-- documents such as Google Docs via share or OAuth and Microsoft Office files  
+- repository in GitLab or GitHub,
+- Trello board,
+- documents such as Google Docs via share or OAuth and Microsoft Office files.
 
 **4. Initial Analysis**
 
@@ -107,9 +105,8 @@ TODO: идеальная модель, эталон
 
 ## Significance for Metropolia
 
-ASTRA helps to do the following.
-
-- enhance the effectiveness and clarity of group work  
-- support the development of teamwork skills relevant toindustry  
-- highlight areas where the workflow could be strengthened  
-- support students in developing practical skills forstructured and collaborative project work
+ASTRA helps to do the following:
+- enhance the effectiveness and clarity of group work,
+- support the development of teamwork skills relevant toindustry,
+- highlight areas where the workflow could be strengthened,
+- support students in developing practical skills forstructured and collaborative project work.
