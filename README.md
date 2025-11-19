@@ -92,10 +92,10 @@ The system periodically collects new data such as commits,board changes, and doc
 **6. Group Dashboard**
 
 Students see the following:
-- contribution dynamics
-- activity graphs  
-- current issues
-- recommendations for process improvement  
+- contribution dynamics,
+- activity graphs,
+- current issues,
+- recommendations for process improvement.
 
 **7. Instructor Report (optional)**
 
