@@ -8,17 +8,17 @@ ASTRA is an AI-driven system for structured analysis, organization, and improvem
 
 Group work in small teams of three to five students is an essential part of Metropolia study programs. Students and instructors regularly face several recurring challenges.
 
-• Lack of structure  
-Students often do not share a common understanding of how to define tasks, record decisions, or maintain a consistent workflow.
+- Lack of structure  
+    Students often do not share a common understanding of how to define tasks, record decisions, or maintain a consistent workflow.
 
-• Uneven contribution  
-Some members perform most of the work while others contribute only minimally. This imbalance is difficult to detect within the group and even harder for instructors to evaluate fairly.
+- Uneven contribution  
+    Some members perform most of the work while others contribute only minimally. This imbalance is difficult to detect within the group and even harder for instructors to evaluate fairly.
 
-• Fragmented tools  
-Students use several platforms such as GitHub or GitLab, Trello, and Google Docs. Information is scattered and there is no unified picture of the process.
+- Fragmented tools  
+    Students use several platforms such as GitHub or GitLab, Trello, and Google Docs. Information is scattered and there is no unified picture of the process.
 
-• No feedback on workflow  
-Both instructor feedback and internal retrospectives usually focus on the final result rather than the process that led to it. Students rarely receive guidance on how to improve the workflow itself.
+- No feedback on workflow  
+    Both instructor feedback and internal retrospectives usually focus on the final result rather than the process that led to it. Students rarely receive guidance on how to improve the workflow itself.
 
 ASTRA is designed to address these issues.
 
