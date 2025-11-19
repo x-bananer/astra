@@ -66,40 +66,40 @@ Based on the collected data ASTRA provides the group with the following.
 
 ## User Workflow
 
-1. Registration
+**1. Registration**
 
-    Students sign in through a Metropolia Google account if possible or another OAuth method.
+Students sign in through a Metropolia Google account ifpossible or another OAuth method.
 
-2. Creating a Group Workspace
+**2. Creating a Group Workspace**
 
-    One student creates a group and invites the others.
+One student creates a group and invites the others.
 
-3. Connecting Tools
+**3. Connecting Tools**
 
-    The group adds links to documents and tools from which they want to receive analytics:
-    - repository in GitLab or GitHub  
-    - Trello board  
-    - documents such as Google Docs via share or OAuth and Microsoft Office files  
+The group adds links to documents and tools from which theywant to receive analytics:
+- repository in GitLab or GitHub  
+- Trello board  
+- documents such as Google Docs via share or OAuth and Microsoft Office files  
 
-4. Initial Analysis
+**4. Initial Analysis**
 
-    ASTRA generates a basic reflective report on the current state of the project.
+ASTRA generates a basic reflective report on the current state of the project.
 
-5. Regular Updates
+**5. Regular Updates**
 
-    The system periodically collects new data such as commits, board changes, and document revisions to update reflective reports.
+The system periodically collects new data such as commits,board changes, and document revisions to update reflectivereports.
 
-6. Group Dashboard
+**6. Group Dashboard**
 
-    Students see the following:
-    - contribution dynamics
-    - activity graphs  
-    - current issues
-    - recommendations for process improvement  
+Students see the following:
+- contribution dynamics
+- activity graphs  
+- current issues
+- recommendations for process improvement  
 
-7. Instructor Report (optional)
+**7. Instructor Report (optional)**
 
-    The group may generate a short factual report about their collaboration.
+The group may generate a short factual report about their collaboration.
 
 ## Reference Model of Group Work
 
