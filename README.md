@@ -66,9 +66,9 @@ Based on the collected data ASTRA provides the group with the following.
 
 ## User Workflow
 
-**1. Registration**
+**1. Registration** 
 
-    Students sign in through a Metropolia Google account ifpossible or another OAuth method.
+    Students sign in through a Metropolia Google account if possible or another OAuth method.
 
 **2. Creating a Group Workspace**
 
