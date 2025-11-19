@@ -4,8 +4,6 @@ Automated Student Teamwork Regulating Assistant
 
 ASTRA is an AI-driven system for structured analysis, organization, and improvement of student teamwork for Metropolia students.It helps Metropolia students organize group work, analyze individual contributions, and improve the quality of collaboration through AI supported structure and feedback.
 
-⸻
-
 ## Foundation of the Project
 
 Group work in small teams of three to five students is an essential part of Metropolia study programs. Students and instructors regularly face several recurring challenges.
@@ -24,8 +22,6 @@ Both instructor feedback and internal retrospectives usually focus on the final 
 
 ASTRA is designed to address these issues.
 
-⸻
-
 ## Core Idea of the System
 
 ASTRA combines three key components.
@@ -41,8 +37,6 @@ The system provides a simple and universal approach for student projects.
 
 This model serves as a reference point for evaluating the actual work of each group.
 
-⸻
-
 ### Automated Data Collection
 
 ASTRA collects data from the tools students already use for organizing project work and completing assignments.
@@ -52,8 +46,6 @@ ASTRA collects data from the tools students already use for organizing project w
 • Google Docs: revisions, authorship changes, document development  
 
 Access is limited to the materials explicitly provided by the group.
-
-⸻
 
 ### AI Based Analysis and Recommendations
 
@@ -78,8 +70,6 @@ Example recommendations
 • Keep shared documents up to date during the work instead of summarizing everything at the end  
 • Split tasks that stay in progress for too long into smaller units to avoid blocking the workflow  
 • Adjust task distribution when one member repeatedly becomes a bottleneck  
-
-⸻
 
 ## User Workflow
 
@@ -127,8 +117,6 @@ The group may generate a short factual report about their collaboration.
 ## Reference Model of Group Work
 
 This section requires further development. It will contain detailed technical criteria that describe the expected structure, pacing, and collaboration principles used by ASTRA as a reference for evaluating group work.
-
-⸻
 
 ## Significance for Metropolia
 
