@@ -73,15 +73,15 @@ Example recommendations
 
 ## User Workflow
 
-### Registration
+### 1. Registration
 
 Students sign in through a Metropolia Google account if possible or another OAuth method.
 
-### Creating a Group Workspace
+### 2. Creating a Group Workspace
 
 One student creates a group and invites the others.
 
-### Connecting Tools
+### 3. Connecting Tools
 
 The group adds links to documents and tools from which they want to receive analytics.
 
@@ -91,15 +91,15 @@ The group adds links to documents and tools from which they want to receive anal
 
 Each participant grants access only to the files they own.
 
-### Initial Analysis
+### 4. Initial Analysis
 
 ASTRA generates a basic report on the current state of the project including contribution, task structure, and documentation.
 
-### Regular Updates
+### 5. Regular Updates
 
 The system periodically collects new data such as commits, board changes, and document revisions.
 
-### Group Dashboard
+### 6. Group Dashboard
 
 Students see the following.
 
@@ -108,11 +108,9 @@ Students see the following.
 • current issues  
 • recommendations for process improvement  
 
-### Instructor Report (optional)
+### 7. Instructor Report (optional)
 
 The group may generate a short factual report about their collaboration.
-
-⸻
 
 ## Reference Model of Group Work
 
