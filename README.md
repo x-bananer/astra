@@ -1,5 +1,5 @@
 # ASTRA
-## Automated Student Teamwork Regulating Assistant
+### Automated Student Teamwork Regulating Assistant
 
 ASTRA is an AI-driven system that supports Metropolia students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
 
