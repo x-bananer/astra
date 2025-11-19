@@ -1,22 +1,22 @@
 # ASTRA
 *Automated Student Teamwork Regulating Assistant*
 
-ASTRA is an AI-driven system that supports Metropolia students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
+ASTRA is an AI-driven system that supports Metropolia IT students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
 
 ## Foundation of the Project
 
-Group work in small teams of three to five students is an essential part of Metropolia study programs. Students and instructors regularly face several recurring challenges.
+Group work in small teams of three to five students is an essential part of Metropolia IT study programs. However, when organizing group work, students regularly face recurring challenges.
 
-- Lack of structure  
-    Students often do not share a common understanding of how to define tasks, record decisions, or maintain a consistent workflow.
+- **Lack of information and structure**
+    In groups, students often do not share a common understanding of how to define tasks, record decisions, or maintain a consistent workflow.
 
-- Uneven contribution  
-    For various reasons (different working speeds, different starting points, different backgrounds, etc.), some members naturally take on more tasks while others participate less, and without structured reflection these patterns can remain unclear to the group.
+- **Uneven contribution**
+    Some students naturally take on more tasks while others may  have fewer opportunities to contribute, and without structured reflection these patterns can remain unclear to the group.
 
-- Fragmented tools  
-    Students use several platforms such as GitHub or GitLab, Trello, and Google Docs. Information is scattered and there is no unified picture of the process.
+- **Fragmented tools**
+    For carrying out group assignments, students usually use several platforms such as GitHub or GitLab, Trello, and Google Docs. Due to the tools being used separately, the group has limited visibility into how their work aligns, fits together and progresses.
 
-- No feedback on workflow  
+- **No feedback on workflow**
     Both instructor feedback and internal retrospectives usually focus on the final result rather than the process that led to it. Students rarely receive guidance on how to improve the workflow itself.
 
 ASTRA is designed to address these issues.
@@ -58,7 +58,7 @@ Based on the collected data ASTRA provides the group with the following.
 - patterns that may slow down task progression
 
 **Recommendations**  
- - short practical suggestions that help the group strengthen their workflow based on observed patterns.
+- short practical suggestions that help the group strengthen their workflow based on observed patterns.
 
 ## User Workflow
 
