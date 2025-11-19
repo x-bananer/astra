@@ -1,5 +1,5 @@
 # ASTRA
-### Automated Student Teamwork Regulating Assistant
+*Automated Student Teamwork Regulating Assistant*
 
 ASTRA is an AI-driven system that supports Metropolia students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
 
@@ -29,9 +29,9 @@ ASTRA combines three key components.
 
 The system provides a simple and universal approach for student projects.
 
-    - formulating tasks and breaking them into smaller units  
-    - tracking progress of the group
-    - maintaining transparency and a predictable rhythm of work  
+- formulating tasks and breaking them into smaller units  
+- tracking progress of the group
+- maintaining transparency and a predictable rhythm of work  
 
 This model serves as a reference point for evaluating the actual work of each group.
 
@@ -39,9 +39,9 @@ This model serves as a reference point for evaluating the actual work of each gr
 
 ASTRA draws on information from the tools students already use to help the group reflect on their workflow and improve their collaboration.
 
-    - GitHub or GitLab: commits, pull requests, merge requests, activity patterns  
-    - Trello: task movement, deadlines, participant activity  
-    - Google Docs: revisions, authorship changes, document development  
+- GitHub or GitLab: commits, pull requests, merge requests,activity patterns  
+- Trello: task movement, deadlines, participant activity  
+- Google Docs: revisions, authorship changes, documentdevelopment  
 
 Access is limited to the materials explicitly provided by the group.
 
@@ -74,9 +74,9 @@ One student creates a group and invites the others.
 
 The group adds links to documents and tools from which they want to receive analytics.
 
-    - repository in GitLab or GitHub  
-    - Trello board  
-    - documents such as Google Docs via share or OAuth and Microsoft Office files  
+- repository in GitLab or GitHub  
+- Trello board  
+- documents such as Google Docs via share or OAuth and Microsoft Office files  
 
 ### 4. Initial Analysis
 
@@ -90,10 +90,10 @@ The system periodically collects new data such as commits, board changes, and do
 
 Students see the following.
 
-    - contribution dynamics
-    - activity graphs  
-    - current issues
-    - recommendations for process improvement  
+- contribution dynamics
+- activity graphs  
+- current issues
+- recommendations for process improvement  
 
 ### 7. Instructor Report (optional)
 
@@ -107,7 +107,7 @@ TODO: идеальная модель, эталон
 
 ASTRA helps to do the following.
 
-    - enhance the effectiveness and clarity of group work  
-    - support the development of teamwork skills relevant to industry  
-    - highlight areas where the workflow could be strengthened  
-    - support students in developing practical skills for structured and collaborative project work
+- enhance the effectiveness and clarity of group work  
+- support the development of teamwork skills relevant toindustry  
+- highlight areas where the workflow could be strengthened  
+- support students in developing practical skills forstructured and collaborative project work
