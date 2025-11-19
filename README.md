@@ -2,7 +2,7 @@
 
 Automated Student Teamwork Regulating Assistant
 
-ASTRA is an AI-driven system for structured analysis, organization, and improvement of student teamwork for Metropolia students.It helps Metropolia students organize group work, analyze individual contributions, and improve the quality of collaboration through AI supported structure and feedback.
+ASTRA is an AI-driven system that supports Metropolia students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
 
 ## Foundation of the Project
 
@@ -12,7 +12,7 @@ Group work in small teams of three to five students is an essential part of Metr
     Students often do not share a common understanding of how to define tasks, record decisions, or maintain a consistent workflow.
 
 - Uneven contribution  
-    Some members perform most of the work while others contribute only minimally. This imbalance is difficult to detect within the group and even harder for instructors to evaluate fairly.
+    For various reasons (different working speeds, different starting points, different backgrounds, etc.), some members naturally take on more tasks while others participate less, and without structured reflection these patterns can remain unclear to the group.
 
 - Fragmented tools  
     Students use several platforms such as GitHub or GitLab, Trello, and Google Docs. Information is scattered and there is no unified picture of the process.
@@ -30,20 +30,19 @@ ASTRA combines three key components.
 
 The system provides a simple and universal approach for student projects.
 
-• formulating tasks and breaking them into smaller units  
-• tracking progress of the group and of each participant  
-• analysing task ownership and responsibility distribution  
-• maintaining transparency and a predictable rhythm of work  
+    - formulating tasks and breaking them into smaller units  
+    - tracking progress of the group
+    - maintaining transparency and a predictable rhythm of work  
 
 This model serves as a reference point for evaluating the actual work of each group.
 
 ### Automated Data Collection
 
-ASTRA collects data from the tools students already use for organizing project work and completing assignments.
+ASTRA draws on information from the tools students already use to help the group reflect on their workflow and improve their collaboration.
 
-• GitHub or GitLab: commits, pull requests, merge requests, activity patterns  
-• Trello: task movement, deadlines, participant activity  
-• Google Docs: revisions, authorship changes, document development  
+    - GitHub or GitLab: commits, pull requests, merge requests, activity patterns  
+    - Trello: task movement, deadlines, participant activity  
+    - Google Docs: revisions, authorship changes, document development  
 
 Access is limited to the materials explicitly provided by the group.
 
@@ -52,24 +51,15 @@ Access is limited to the materials explicitly provided by the group.
 Based on the collected data ASTRA provides the group with the following.
 
 **Statistics**  
-• contribution and activity of each member  
-• stability and pacing of the workflow  
-• balance between individual and shared work  
+- an overview of how the group’s work is distributed  
+- indicators of workflow pacing  
 
-**Problem Identification**  
-• contribution imbalance  
-• irregular or unstable workflow  
-• delays in task completion  
-• insufficient documentation  
+**Process Insight**  
+- signs of inconsistent pacing  
+- patterns that may slow down task progression
 
 **Recommendations**  
-Short practical suggestions generated from the observed patterns of the group.
-
-Example recommendations  
-• Establish a weekly routine of small, clearly defined tasks and update them regularly  
-• Keep shared documents up to date during the work instead of summarizing everything at the end  
-• Split tasks that stay in progress for too long into smaller units to avoid blocking the workflow  
-• Adjust task distribution when one member repeatedly becomes a bottleneck  
+ - short practical suggestions that help the group strengthen their workflow based on observed patterns.
 
 ## User Workflow
 
@@ -85,28 +75,26 @@ One student creates a group and invites the others.
 
 The group adds links to documents and tools from which they want to receive analytics.
 
-• repository in GitLab or GitHub  
-• Trello board  
-• documents such as Google Docs via share or OAuth and Microsoft Office files  
-
-Each participant grants access only to the files they own.
+    - repository in GitLab or GitHub  
+    - Trello board  
+    - documents such as Google Docs via share or OAuth and Microsoft Office files  
 
 ### 4. Initial Analysis
 
-ASTRA generates a basic report on the current state of the project including contribution, task structure, and documentation.
+ASTRA generates a basic reflective report on the current state of the project.
 
 ### 5. Regular Updates
 
-The system periodically collects new data such as commits, board changes, and document revisions.
+The system periodically collects new data such as commits, board changes, and document revisions to update reflective reports.
 
 ### 6. Group Dashboard
 
 Students see the following.
 
-• contribution dynamics  
-• activity graphs  
-• current issues  
-• recommendations for process improvement  
+    - contribution dynamics
+    - activity graphs  
+    - current issues
+    - recommendations for process improvement  
 
 ### 7. Instructor Report (optional)
 
@@ -114,15 +102,13 @@ The group may generate a short factual report about their collaboration.
 
 ## Reference Model of Group Work
 
-This section requires further development. It will contain detailed technical criteria that describe the expected structure, pacing, and collaboration principles used by ASTRA as a reference for evaluating group work.
+TODO: идеальная модель, эталон
 
 ## Significance for Metropolia
 
 ASTRA helps to do the following.
 
-• improve the quality of group projects  
-• support the development of teamwork skills relevant to industry  
-• optionally provide instructors with objective data about the group workflow  
-• ensure transparency of individual contributions  
-• identify problems early during the project  
-• teach students essential principles of organized group work  
+    - enhance the effectiveness and clarity of group work  
+    - support the development of teamwork skills relevant to industry  
+    - highlight areas where the workflow could be strengthened  
+    - support students in developing practical skills for structured and collaborative project work
