@@ -1,0 +1,23 @@
+.app-footer {
+    background-color: var(--color-bg);
+    padding-block: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-footer__logo {
+    max-width: 150px;
+    font-size: 6px;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
+    flex: 1;
+    text-transform: uppercase;
+}
+
+.app-footer__caption {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    font-size: 12px;
+
+}

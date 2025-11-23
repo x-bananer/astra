@@ -1,0 +1,27 @@
+:root {
+  --font-family-main: 'Roboto', sans-serif;
+  --font-family-title: 'PP Neue Machina', sans-serif;
+
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  --color-text-main: #363E3C;
+  --color-text-secondary: #53565A;
+
+  --color-primary: #FF5000;
+  --color-bg: #F8F8F8;
+  --color-bg-secondary: #DBDBDB;
+  --color-border: #f1f1f1;
+
+  --color-accent-1: #CFF3D5;
+  --color-accent-2: #E384C4;
+  --color-accent-3: #4046A8;
+  --color-accent-4: #FED7EB;
+--color-accent-5: #FFDE21;
+
+  --color-error-500: #ef4444;
+
+  --bp-mobile: 480px;
+  --bp-tablet: 960px;
+  --bp-desktop: 1280px;
+}

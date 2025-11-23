@@ -1,0 +1,138 @@
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100vh;
+  scrollbar-gutter: stable;
+  font-family: var(--font-family-main);
+  font-size: 18px;
+  line-height: 1.42;
+  background-color: var(--color-white);
+  color: var(--color-text-main);
+}
+
+html,
+body,
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font-weight: normal;
+  font-style: normal;
+  font-family: var(--font-family-title);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+li,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input {
+  font-family: inherit;
+}
+
+button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    font: inherit;
+    color: inherit;
+
+    cursor: pointer;
+
+    outline: none;
+    box-shadow: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    text-decoration: none;
+    text-align: center;
+    
+    -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes on-auto-fill-start {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes on-auto-fill-cancel {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+input:-webkit-autofill {
+  animation-name: on-auto-fill-start;
+}
+
+input:not(:-webkit-autofill) {
+  animation-name: on-auto-fill-cancel;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: var(--color-text-main) !important;
+  color: var(--color-text-main) !important;
+}

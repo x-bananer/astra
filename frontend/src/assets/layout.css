@@ -1,0 +1,7 @@
+.layout {
+  --padding-x: 40px;
+  --width: 1280px;
+
+  width: 100%;
+  padding-inline: max(var(--padding-x), calc(50vw - var(--width) / 2));
+}

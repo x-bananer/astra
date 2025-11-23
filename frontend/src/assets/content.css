@@ -1,0 +1,14 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app__header,
+.app__footer  {
+    flex: 0;
+}
+
+.app__content {
+    flex: 1;
+}

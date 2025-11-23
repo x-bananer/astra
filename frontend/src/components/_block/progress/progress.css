@@ -1,0 +1,119 @@
+.progress {
+    padding-right: 20px;
+}
+
+.progress__media {
+    display: flex;
+    align-items: center;
+}
+
+.progress__media-aside {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.progress__media-aside--yellow {
+    background-color: var(--color-accent-5);
+}
+
+.progress__media-aside--pink {
+    background-color: var(--color-accent-2);
+}
+
+.progress__media-aside--blue {
+    background-color: var(--color-accent-3);
+}
+
+.progress__media-aside--green {
+    background-color: var(--color-accent-1);
+}
+
+.progress__media-aside--gray {
+    background-color: #808080;
+}
+
+.progress__media-aside--purple {
+    background-color: #A689E1;
+}
+
+.progress__media-main {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    opacity: 0.8;
+    margin-right: 4px;
+}
+
+.progress__media-tooltip-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.progress__media-tooltip {
+   border: 1px solid var(--color-text-secondary);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 600;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.progress__media-tooltip-popup {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translate(-50%, 12px);
+    min-width: 180px;
+    max-width: 260px;
+    padding: 8px 10px;
+    background-color: #fff;
+    color: var(--color-text-primary, #363e3c);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    font-size: 12px;
+    line-height: 1.4;
+    z-index: 10;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.18s ease-out,
+        transform 0.18s ease-out,
+        visibility 0.18s ease-out;
+}
+
+.progress__media-tooltip-wrapper:hover .progress__media-tooltip-popup {
+    opacity: 0.9;
+    visibility: visible;
+     transform: translate(-50%, 6px);
+}
+
+.progress__text {
+    font-weight: 600;
+    padding-block: 10px;
+}
+
+.progress__bar-wrapper {
+    width: 120px;
+    height: 4px;
+    background-color: #DBDBDB;
+    border-radius: 4px;
+    overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+}
+
+.progress__bar-active {
+    height: 100%;
+    background-color: #16A34A;
+    transition: width 0.3s ease;
+     opacity: 0.8;
+}
