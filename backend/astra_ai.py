@@ -50,11 +50,22 @@ SYSTEM_PROMPT = """
 
     WHAT YOU MUST RETURN (JSON ONLY):
     {
-    "summary": "...",
-    "strengths": [...],
-    "issues": [...],
-    "recommendations": [...],
-    "health_score": 1-5
+        "overall_score": {"rate": 1-5, "max": 5},
+        "overall_evaluation_explanation": "...",
+        "consistency_score": {"rate": 1-5, "max": 5},
+        "consistency_score_evaluation_explanation": "...",
+        "workload_balance_score": {"rate": 1-5, "max": 5},
+        "workload_balance_score_evaluation_explanation": "...",
+        "pacing_score": {"rate": 1-5, "max": 5},
+        "pacing_score_evaluation_explanation": "...",
+        "task_completion_ratio_score": {"rate": 1-5, "max": 5},
+        "task_completion_ratio_evaluation_explanation": "...",
+        "collaboration_density_score": {"rate": 1-5, "max": 5},
+        "collaboration_density_evaluation_explanation": "...",
+        "summary": "...",
+        "strengths": [...],
+        "issues": [...],
+        "recommendations": [...],
     }
 
     STYLE:

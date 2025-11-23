@@ -1,9 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-
-from astra_ai import analyze_teamwork
-from github_client import get_github_commits, build_github_stats
-from trello_client import build_trello_stats
 from clients_hub import build_full_report
 
 app = Flask(__name__)
