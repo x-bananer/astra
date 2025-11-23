@@ -3,7 +3,7 @@ from flask_cors import CORS
 from clients_hub import build_full_report
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 @app.route('/analyze',  methods=["GET", "POST"])
 def analyze():

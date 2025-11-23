@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import styles from './page-home.module.css';
-import Progress from '../../components/_block/progress/progress';
+import Progress from '../_block/progress/progress';
 
 const PageHome = () => {
 
