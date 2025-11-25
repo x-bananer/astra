@@ -6,6 +6,11 @@
     align-items: center;
 }
 
+.app-header--login {
+    height: 60px;
+    min-height: 60px;
+}
+
 .app-header__logo {
     display: flex;
     align-items: start;
@@ -22,7 +27,25 @@
 .app-header__logo img {
     width: 40px;
     height: 40px;
+}
 
+.app-header__logo--full {
+    max-width: 170px;
+    font-size: 6px;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
+    flex: 1;
+    text-transform: uppercase;
+    border: none;
+    padding: 0;
+    margin: 0;
+    color: var(--color-text-secondary)
+}
+
+.app-header__logo img {
+    width: unset;
+    height: unset;
+    margin-bottom: 4px;
 }
 
 .app-header__nav {

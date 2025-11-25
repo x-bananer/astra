@@ -1,0 +1,68 @@
+.page-login {
+    padding-block: 40px;
+    height: 100%;
+
+    display: flex;
+}
+
+.page-login__main {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.page-login__aside {
+    flex: 1;
+    max-width: 660px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-login__aside img {
+    width: 85%;
+}
+
+.page-login__title {
+    font-size: 60px;
+    letter-spacing: 12px;
+}
+
+.page-login__subtitle {
+    color: #808080;
+    letter-spacing: 4px;
+    opacity: .8;
+    margin-top: -14px;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.page-login__description {
+    padding-top: 32px;
+    max-width: 500px;
+    color: #808080;
+    letter-spacing: 0.5px;
+}
+
+.page-login__list {
+    padding-top: 18px;
+    color: #808080;
+    letter-spacing: 0.5px;
+}
+
+.page-login__list li {
+    padding-block: 4px;
+}
+
+.page-login__caption {
+    padding-top: 20px;
+    padding-bottom: 40px;
+     color: #808080;
+     letter-spacing: 0.5px;
+}
+
+.page-login__accent {
+    color: var(--color-primary);
+    padding-right: 6px;
+    font-weight: 600;
+}
