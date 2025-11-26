@@ -12,7 +12,7 @@ const PageHome = () => {
     useEffect(() => {
         async function load() {
             try {
-                const res = await fetch("http://127.0.0.1:5000/analyze", {
+                const res = await fetch("http://localhost:4000/analyze", {
                     method: "GET",
                     headers: {
                         "Accept": "application/json"

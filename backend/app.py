@@ -15,12 +15,13 @@ app.secret_key = Config.SECRET_KEY
 CORS(
     app,
     supports_credentials=True,
-    origins=["http://127.0.0.1:3000"]
+    origins=["http://localhost:3000"]
 )
 
 init_db()
 
-# auth
+# Authentication
+
 oauth = OAuth(app)
 
 google = oauth.register(
@@ -56,8 +57,6 @@ def google_callback():
             session.refresh(user)
 
         user_id = user.id
-        user_email = user.email
-        user_name = user.name
 
     payload = {
         "user_id": user_id,
@@ -65,7 +64,7 @@ def google_callback():
     }
     jwt_token = jwt.encode(payload, Config.SECRET_KEY, algorithm="HS256")
 
-    response = make_response(redirect("http://127.0.0.1:3000"))
+    response = make_response(redirect("http://localhost:3000"))
     response.set_cookie(
         "astra.access_token",
         jwt_token,
@@ -75,9 +74,11 @@ def google_callback():
     )
     return response
 
-@app.get("/auth/me")
-def auth_me():
-    token = request.cookies.get("access_token")
+# User detail
+
+@app.get("/auth/user")
+def auth_user():
+    token = request.cookies.get("astra.access_token")
     if not token:
         return jsonify({"authenticated": False}), 401
 
@@ -103,6 +104,19 @@ def auth_me():
         "name": user.name
     })
 
+# User Logout
+@app.post("/auth/logout")
+def auth_logout():
+    response = make_response(jsonify({"ok": True}))
+    response.set_cookie(
+        "astra.access_token",
+        "",
+        max_age=0,
+        httponly=True,
+        samesite="Lax",
+        path="/"
+    )
+    return response
 
 # AI analysis
 
@@ -115,24 +129,6 @@ def analyze():
     result = build_full_report(board_id, owner, repo)
 
     return jsonify(result)
-    
-# @app.route("/github", methods=["GET"])
-# def github():
-#     owner = "veiston"
-#     repo = "Ufotutkija-Pekka"
-    
-#     commits = get_github_commits(owner, repo)
-#     stats = build_github_stats(commits)
-    
-#     return jsonify(stats)
-
-# @app.route("/trello", methods=["GET"])
-# def trello():
-#     board_id = 'Ozbf2TiG'
-    
-#     stats = build_trello_stats(board_id)
-    
-#     return jsonify(stats)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="localhost", port=4000)

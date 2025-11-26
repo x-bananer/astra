@@ -1,8 +1,25 @@
+import { useAuth } from "../../auth/auth-provider";
+
 import styles from './app-header.module.css';
 
 import AppHeaderLink from './app-header-link';
+import Button from '../../_block/button/button';
 
 const AppHeader = ({ className }) => {
+    const handleLogout = async () => {
+        try {
+            await fetch("http://localhost:4000/auth/logout", {
+                method: "POST",
+                credentials: "include",
+            });
+        } catch (e) {
+            console.error(e)
+        }
+        window.location.href = "/login";
+    };
+
+    const { user } = useAuth();
+
     return (
         <header className={`${styles['app-header']} ${className || ''}`}>
 
@@ -32,13 +49,28 @@ const AppHeader = ({ className }) => {
                 </AppHeaderLink>
             </nav>
 
+            {user && user.id && 
             <div className={styles['app-header__avatar']}>
-                <div className={styles['app-header__avatar-icon']}>KS</div>
+                <div className={styles['app-header__avatar-icon']}>{user?.name?.[0]}</div>
                 <div className={styles['app-header__avatar-text']}>
-                    <p>Kseniia Shlenskaia</p>
+                    <p>{user?.name}</p>
                     <p>Team #9</p>
                 </div>
             </div>
+            }
+
+            {user && user.id && 
+            <Button
+                variant="outline"
+                size="small"
+                className={styles['app-header__button']}
+                onClick={handleLogout}
+            >
+                Log Out
+            </Button>
+            }
+
+
 
         </header>
     );

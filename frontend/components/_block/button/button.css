@@ -28,6 +28,18 @@
     height: 48px;
 }
 
+.button--outline {
+    background-color: transparent;
+    border: 1px solid var(--color-text-main);
+    color: var(--color-text-main);
+    height: 48px;
+}
+
+.button--small {
+    height: 36px;
+    font-size: 14px;
+}
+
 .button--link {
     padding: 0;
     color: var(--color-text-main);

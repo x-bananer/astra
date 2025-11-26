@@ -31,6 +31,7 @@ SYSTEM_PROMPT = """
 
     INPUT YOU RECEIVE:
     - GitHub metrics (commits, contributors, PR states, time gaps, code ownership)
+    - GitLab metrics (commits, contributors, PR states, time gaps, code ownership)
     - Trello metrics (card movement, time stuck in columns, member activity)
     - Google Docs metrics (revision history, authors, timing)
     - Time series of activity

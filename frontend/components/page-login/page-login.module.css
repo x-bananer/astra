@@ -29,7 +29,7 @@
 }
 
 .page-login__subtitle {
-    color: #808080;
+    color: var(--color-text-secondary);
     letter-spacing: 4px;
     opacity: .8;
     margin-top: -14px;

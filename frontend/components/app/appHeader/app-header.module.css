@@ -89,7 +89,7 @@
     white-space: nowrap;
     font-size: 12px;
     padding-left: 4px;
-    max-width: 100px;
+    max-width: 200px;
     display: flex;
     flex-direction: column;
 }
@@ -107,4 +107,8 @@
     color: var(--color-text-secondary);
     opacity: 0.6;
     font-weight: 400;
+}
+
+.app-header__button {
+    margin-left: 20px;
 }

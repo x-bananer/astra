@@ -1,9 +1,10 @@
 import "./button.css";
 
-const Button = ({ children, variant = "primary", active, className = "", ...props }) => {
+const Button = ({ children, size='', variant = "primary", active, className = "", ...props }) => {
     const classes = [
         "button",
         `button--${variant}`,
+        `button--${size}`,
         active ? "button--active" : "",
         className
     ].join(" ").trim();
