@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import styles from './page-home.module.css';
 import Progress from '../_block/progress/progress';
+import Button from '../_block/button/button';
+
 
 const PageHome = () => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [repoInput, setRepoInput] = useState("");
 
     useEffect(() => {
         async function load() {
@@ -16,9 +19,9 @@ const PageHome = () => {
                     method: "GET",
                     headers: {
                         "Accept": "application/json"
-                    }
+                    },
+                    credentials: "include"
                 });
-
                 const json = await res.json();
                 setData(json.analysis || null);
             } catch (e) {
@@ -36,6 +39,36 @@ const PageHome = () => {
             <div className={styles['page-home__header']}>
                 <h1 className={styles['page-home__title']}>Dashboard</h1>
             </div>
+
+
+            <Button style={{'marginTop': '10px', 'marginBottom': '20px'}} variant="outline" onClick={async () => {
+                await fetch("http://localhost:4000/groups/create", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({ name: "Team #9" })
+                });
+            }}>
+                + Create Group
+            </Button>
+
+
+            <input
+                type="text"
+                placeholder="owner/repo"
+                value={repoInput}
+                onChange={(e) => setRepoInput(e.target.value)}
+                style={{ marginBottom: "10px", padding: "8px", width: "250px", display: "block" }}
+            />
+
+            <Button variant="outline" style={{'marginTop': '10px', 'marginBottom': '20px'}} onClick={() => {
+                const param = encodeURIComponent(repoInput.trim());
+                window.location.href = `http://localhost:4000/auth/github/login?repo=${param}`;
+            }}>
+                + Add GitHub Repo
+            </Button>
+
+            
 
             <div className={styles['page-home__content']}>
                 {loading && (

@@ -8,6 +8,11 @@ from config import Config
 import jwt
 import datetime
 from db import init_db, engine
+import requests
+
+from models.group import Group
+from models.group_member import GroupMember
+from models.group_integration_token import GroupIntegrationToken
 
 app = Flask(__name__)
 app.secret_key = Config.SECRET_KEY
@@ -120,15 +125,160 @@ def auth_logout():
 
 # AI analysis
 
-@app.route('/analyze',  methods=["GET", "POST"])
-def analyze():
-    owner = "veiston"
-    repo = "Ufotutkija-Pekka"
-    board_id = 'Ozbf2TiG'
+# @app.route('/analyze',  methods=["GET", "POST"])
+# def analyze():
+#     owner = "veiston"
+#     repo = "Ufotutkija-Pekka"
+#     board_id = 'Ozbf2TiG'
     
-    result = build_full_report(board_id, owner, repo)
+#     result = build_full_report(board_id, owner, repo)
 
-    return jsonify(result)
+#     return jsonify(result)
+@app.get("/analyze")
+def analyze():
+    token = request.cookies.get("astra.access_token")
+
+    if not token or not isinstance(token, str):
+        return jsonify({"error": "unauthenticated"}), 401
+
+    try:
+        payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "expired"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "invalid"}), 401
+
+    user_id = payload["user_id"]
+
+    with Session(engine) as session:
+        user = session.get(User, user_id)
+
+        git_token = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == user.group_id,
+                GroupIntegrationToken.provider == "github"
+            )
+        ).first()
+
+        if not git_token:
+            return {"error": "no_token"}, 400
+
+        owner, repo = git_token.repo_full_name.split("/")
+
+        board_id = "Ozbf2TiG"
+        result = build_full_report(board_id, owner, repo, git_token.access_token)
+
+        return jsonify(result)
+
+
+# GitHub Repository Access 
+
+@app.get("/auth/github/login")
+def github_login():
+    repo = request.args.get("repo", "")
+    url = (
+        "https://github.com/login/oauth/authorize"
+        "?client_id=" + Config.GITHUB_CLIENT_ID +
+        "&redirect_uri=" + Config.GITHUB_REDIRECT_URI +
+        "&scope=repo" +
+        "&state=" + repo
+    )
+    return redirect(url)
+
+
+@app.get("/auth/github/callback")
+def github_callback():
+    code = request.args.get("code")
+    if not code:
+        return jsonify({"error": "no_code"}), 400
+
+    token_resp = requests.post(
+        "https://github.com/login/oauth/access_token",
+        headers={"Accept": "application/json"},
+        data={
+            "client_id": Config.GITHUB_CLIENT_ID,
+            "client_secret": Config.GITHUB_CLIENT_SECRET,
+            "code": code,
+            "redirect_uri": Config.GITHUB_REDIRECT_URI,
+        },
+    ).json()
+
+    access_token = token_resp.get("access_token")
+    if not access_token:
+        return jsonify({"error": "no_token"}), 400
+
+    repos = requests.get(
+        "https://api.github.com/user/repos",
+        headers={"Authorization": f"Bearer {access_token}"},
+    ).json()
+
+    if not isinstance(repos, list) or len(repos) == 0:
+        return jsonify({"error": "no_repos_granted"}), 400
+
+    full_name = request.args.get("state")
+    print(full_name, 'AAAAAAAAAAAAAAAAAAAAAAAAAAA')
+
+    token = request.cookies.get("astra.access_token")
+    payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    user_id = payload["user_id"]
+
+    with Session(engine) as session:
+        user = session.get(User, user_id)
+        group_id = user.group_id
+
+        old = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == group_id,
+                GroupIntegrationToken.provider == "github"
+            )
+        ).all()
+
+        for item in old:
+            session.delete(item)
+
+        new_item = GroupIntegrationToken(
+            group_id=group_id,
+            provider="github",
+            access_token=access_token,
+            repo_full_name=full_name,
+            created_at=datetime.datetime.utcnow()
+        )
+        session.add(new_item)
+        session.commit()
+
+    return redirect("http://localhost:3000")
+
+@app.post("/groups/create")
+def create_group():
+    data = request.json
+    name = data.get("name")
+
+    token = request.cookies.get("astra.access_token")
+    payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    user_id = payload["user_id"]
+
+    with Session(engine) as session:
+        # 1. create group
+        g = Group(name=name)
+        session.add(g)
+        session.commit()
+        session.refresh(g)
+
+        # 2. link user to group (membership)
+        m = GroupMember(group_id=g.id, user_id=user_id)
+        session.add(m)
+
+        # 3. update user.group_id
+        user = session.get(User, user_id)
+        user.group_id = g.id
+        session.add(user)
+
+        session.commit()
+
+        group_id = g.id
+        group_name = g.name
+
+    return {"id": group_id, "name": group_name}
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=4000)

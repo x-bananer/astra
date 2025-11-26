@@ -7,10 +7,11 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 API_BASE = "https://api.github.com"
 
-def safe_get(url):
+def safe_get(url, token=None):
     headers = {}
-    if GITHUB_TOKEN:
-        headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+    print(token, 'DDDDDDDDDDDDDDD')
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
     resp = requests.get(url, headers=headers)
 
     if resp.status_code == 403 and "rate limit" in resp.text.lower():
@@ -25,7 +26,7 @@ def safe_get(url):
         return {"error": "invalid_json"}
 
 
-def get_github_commits(owner, repo):
+def get_github_commits(owner, repo, token):
     # TODO Поправить цифры
     MAX_COMMITS = 10   
     MAX_DAYS = 300      
@@ -37,7 +38,8 @@ def get_github_commits(owner, repo):
         f"?since={since}&per_page={MAX_COMMITS}"
     )
 
-    raw_commits = safe_get(list_url)
+    raw_commits = safe_get(list_url, token)
+    print(raw_commits, 'RRRRRRRRRRRR')
 
     if isinstance(raw_commits, dict) and "error" in raw_commits:
         return {"error": raw_commits["error"]}
@@ -57,7 +59,7 @@ def get_github_commits(owner, repo):
         date = commit.get("commit", {}).get("author", {}).get("date")
 
         detail_url = f"{API_BASE}/repos/{owner}/{repo}/commits/{sha}"
-        detail = safe_get(detail_url)
+        detail = safe_get(detail_url, token)
 
         if isinstance(detail, dict) and "error" in detail:
             continue
