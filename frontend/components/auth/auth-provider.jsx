@@ -8,30 +8,31 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function load() {
-            try {
-                const res = await fetch("http://localhost:4000/auth/user", {
-                    credentials: "include",
-                });
-
-                if (res.ok) {
-                    const user = await res.json();
-                    setUser(user || null);
-                } else {
-                    setUser(null);
-                }
-            } catch {
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
+    async function loadUser() {
+        try {
+            const res = await fetch("http://localhost:4000/auth/user", {
+                credentials: "include"
+            });
+            const json = await res.json();
+            if (json.authenticated) setUser(json.user);
+            else setUser(null);
+        } catch {
+            setUser(null);
+        } finally {
+            setLoading(false);
         }
+    }
 
-        load();
+    useEffect(() => {
+        loadUser();
     }, []);
 
-    const value = useMemo(() => ({ user, setUser, loading }), [user, loading]);
+    const value = {
+        user,
+        setUser,
+        loading,
+        loadUser
+    };
 
     return (
         <AuthContext.Provider value={value}>

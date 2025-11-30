@@ -18,7 +18,7 @@ const AppHeader = ({ className }) => {
         window.location.href = "/login";
     };
 
-    const { user } = useAuth();
+    const auth = useAuth();
 
     return (
         <header className={`${styles['app-header']} ${className || ''}`}>
@@ -49,29 +49,32 @@ const AppHeader = ({ className }) => {
                 </AppHeaderLink>
             </nav>
 
-            {user && user.id && 
+            {auth?.user && auth?.user.id && 
             <div className={styles['app-header__avatar']}>
-                <div className={styles['app-header__avatar-icon']}>{user?.name?.[0]}</div>
+                <div className={styles['app-header__avatar-icon']}>
+                    { auth?.user?.avatar ?
+                        <img src={auth?.user?.avatar} alt="ASTRA User avatar" /> :
+                        <span>{auth?.user?.name?.[0]}</span>
+                    }
+                </div>
                 <div className={styles['app-header__avatar-text']}>
-                    <p>{user?.name}</p>
-                    <p>Team #9</p>
+                    <p>{auth?.user?.name}</p>
+                    {auth?.user?.group?.name ??
+                    <p>{auth?.user?.group?.name}</p>}
                 </div>
             </div>
             }
 
-            {user && user.id && 
-            <Button
-                variant="outline"
-                size="small"
-                className={styles['app-header__button']}
-                onClick={handleLogout}
-            >
-                Log Out
-            </Button>
-            }
-
-
-
+            {auth?.user?.id && (
+                <Button
+                    variant="outline"
+                    size="small"
+                    className={styles['app-header__button']}
+                    onClick={handleLogout}
+                >
+                    Log Out
+                </Button>
+            )}
         </header>
     );
 }
