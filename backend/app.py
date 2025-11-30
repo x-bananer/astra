@@ -50,13 +50,14 @@ def google_callback():
 
     email = userinfo["email"]
     name = userinfo.get("name")
+    avatar = userinfo.get("picture")
 
     with Session(engine) as session:
         result = session.exec(select(User).where(User.email == email))
         user = result.first()
 
         if not user:
-            user = User(email=email, name=name)
+            user = User(email=email, name=name, avatar=avatar)
             session.add(user)
             session.commit()
             session.refresh(user)
@@ -82,6 +83,7 @@ def google_callback():
 # User detail
 
 @app.get("/auth/user")
+@app.get("/auth/user")
 def auth_user():
     token = request.cookies.get("astra.access_token")
     if not token:
@@ -98,17 +100,64 @@ def auth_user():
 
     with Session(engine) as session:
         user = session.get(User, user_id)
+        if not user:
+            return jsonify({"authenticated": False}), 404
 
-    if not user:
-        return jsonify({"authenticated": False}), 404
+        group_data = None
 
-    return jsonify({
-        "authenticated": True,
-        "id": user.id,
-        "email": user.email,
-        "name": user.name
-    })
+        if user.group_id:
+            g = session.get(Group, user.group_id)
 
+            if g:
+                members = session.exec(
+                    select(GroupMember).where(GroupMember.group_id == g.id)
+                ).all()
+
+                member_users = []
+                for m in members:
+                    u = session.get(User, m.user_id)
+                    if u:
+                        member_users.append({
+                            "id": u.id,
+                            "email": u.email,
+                            "name": u.name,
+                            "avatar": u.avatar
+                        })
+
+                integrations = session.exec(
+                    select(GroupIntegrationToken).where(
+                        GroupIntegrationToken.group_id == g.id
+                    )
+                ).all()
+
+                integrations_list = []
+                for it in integrations:
+                    integrations_list.append({
+                        "id": it.id,
+                        "provider": it.provider,
+                        "repo_full_name": it.repo_full_name,
+                        "created_at": it.created_at.isoformat()
+                    })
+
+                group_data = {
+                    "id": g.id,
+                    "name": g.name,
+                    "created_at": g.created_at.isoformat(),
+                    "members": member_users,
+                    "integrations": integrations_list
+                }
+
+        return jsonify({
+            "authenticated": True,
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "name": user.name,
+                "avatar": user.avatar,
+                "group": group_data
+            }
+        })
+        
 # User Logout
 @app.post("/auth/logout")
 def auth_logout():
@@ -165,7 +214,8 @@ def analyze():
 
         owner, repo = git_token.repo_full_name.split("/")
 
-        board_id = "Ozbf2TiG"
+        # board_id = "Ozbf2TiG"
+        board_id = ''
         result = build_full_report(board_id, owner, repo, git_token.access_token)
 
         return jsonify(result)
@@ -216,7 +266,6 @@ def github_callback():
         return jsonify({"error": "no_repos_granted"}), 400
 
     full_name = request.args.get("state")
-    print(full_name, 'AAAAAAAAAAAAAAAAAAAAAAAAAAA')
 
     token = request.cookies.get("astra.access_token")
     payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
@@ -254,31 +303,45 @@ def create_group():
     name = data.get("name")
 
     token = request.cookies.get("astra.access_token")
-    payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    if not token:
+        return {"error": "unauthenticated"}, 401
+    
+    if not name:
+        return {"error": "name field is required"}, 400
+
+    try:
+        payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    except:
+        return {"error": "invalid_token"}, 401
+
     user_id = payload["user_id"]
 
     with Session(engine) as session:
-        # 1. create group
+        user = session.get(User, user_id)
+        if not user:
+            return {"error": "user_not_found"}, 404
+
+        if user.group_id is not None:
+            return {"error": "group for this user already exists"}, 400
+
         g = Group(name=name)
         session.add(g)
         session.commit()
         session.refresh(g)
 
-        # 2. link user to group (membership)
         m = GroupMember(group_id=g.id, user_id=user_id)
         session.add(m)
 
-        # 3. update user.group_id
-        user = session.get(User, user_id)
         user.group_id = g.id
         session.add(user)
 
         session.commit()
 
-        group_id = g.id
-        group_name = g.name
-
-    return {"id": group_id, "name": group_name}
+        return {
+            "id": g.id,
+            "name": g.name,
+            "created_at": g.created_at.isoformat()
+        }
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=4000)

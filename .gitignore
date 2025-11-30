@@ -419,3 +419,4 @@ FodyWeavers.xsd
 
 backend/.venv/
 backend/.env
+backend/app.db
