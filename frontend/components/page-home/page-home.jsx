@@ -31,6 +31,8 @@ const PageHome = () => {
     const [loading, setLoading] = useState(true);
     const [teamNameInput, setTeamNameInput] = useState("");
     const [repoInput, setRepoInput] = useState("");
+    const [gitlabRepoInput, setGitlabRepoInput] = useState("");
+    
 
     async function handleCreateTeam() {
         await fetch("http://localhost:4000/groups/create", {
@@ -118,10 +120,6 @@ const PageHome = () => {
                             <div className={styles['page-home__card-grid']}>
                                 <div className={styles['page-home__card-row']}>
                                     <div className={styles['page-home__card-text-accent']}>GitHub</div>
-                                    <div className={styles['page-home__card-text-secondary']}>
-                                        ASTRA reads your GitHub repository to gather activity data for analysis.
-                                        You can find the analysis on the "ASTRA Analysis" page.
-                                    </div>
 
                                     {auth?.user?.group?.integrations?.some(i => i.provider === "github") ? (
                                         (() => {
@@ -130,91 +128,170 @@ const PageHome = () => {
 
                                             return (
                                                 <>
-                                                    <div style={{ marginTop: '4px' }}>
-
-                                                        <div className={styles['page-home__card-text']}>
-                                                            Connected repository: <span className={styles['page-home__card-text-accent']}>
-                                                                {repo}
-                                                            </span>
+                                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                                        <span className={styles['page-home__card-text-secondary']}>
+                                                            ASTRA reads your GitHub repository to gather activity data for analysis.
+                                                            You can find the analysis on the "ASTRA Analysis" page.
+                                                        </span>
+                                                        <div style={{ marginTop: '4px' }}>
+                                                            <div className={styles['page-home__card-text']}>
+                                                                Connected repository: <span className={styles['page-home__card-text-accent']}>
+                                                                    {repo}
+                                                                </span>
+                                                            </div>
+                                                            <div className={styles['page-home__card-text']}>
+                                                                Owner: <span className={styles['page-home__card-text-accent']}>
+                                                                    {owner}
+                                                                </span>
+                                                            </div>
                                                         </div>
-                                                        <div className={styles['page-home__card-text']}>
-                                                            Owner: <span className={styles['page-home__card-text-accent']}>
-                                                                {owner}
-                                                            </span>
+                                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Owner/Repo"
+                                                                value={repoInput}
+                                                                onChange={(e) => setRepoInput(e.target.value)}
+                                                                className={styles['page-home__input']}
+                                                                style={{ marginTop: '10px' }}
+                                                            />
+
+                                                            <Button
+                                                                size="small"
+                                                                className={styles['page-home__card-button']}
+                                                                style={{ marginTop: '8px' }}
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    const param = encodeURIComponent(repoInput.trim());
+                                                                    window.location.href =
+                                                                        `http://localhost:4000/auth/github/login?repo=${param}`;
+                                                                }}
+                                                            >
+                                                                Change Repository
+                                                            </Button>
                                                         </div>
                                                     </div>
-
-                                                    <input
-                                                        type="text"
-                                                        placeholder="Owner/Repo"
-                                                        value={repoInput}
-                                                        onChange={(e) => setRepoInput(e.target.value)}
-                                                        className={styles['page-home__input']}
-                                                        style={{ marginTop: '10px' }}
-                                                    />
-                                                    <Button
-                                                        size="small"
-                                                        className={styles['page-home__card-button']}
-                                                        style={{ marginTop: '4px' }}
-                                                        variant="outline"
-                                                        onClick={() => {
-                                                            const param = encodeURIComponent(repoInput.trim());
-                                                            window.location.href =
-                                                                `http://localhost:4000/auth/github/login?repo=${param}`;
-                                                        }}
-                                                    >
-                                                        Change Repository
-                                                    </Button>
                                                 </>
                                             );
                                         })()
                                     ) : (
-                                        <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
-                                            <span className={styles['page-home__card-text-secondary']}>
-                                                Your team doesn’t have a GitHub integration yet. Connect a repository to start tracking activity.
-                                            </span>
-                                            <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
-                                                <input
-                                                    type="text"
-                                                    placeholder="Owner/Repo"
-                                                    value={repoInput}
-                                                    onChange={(e) => setRepoInput(e.target.value)}
-                                                    className={styles['page-home__input']}
-                                                    style={{ marginTop: '10px' }}
-                                                />
+                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                        <span className={styles['page-home__card-text-secondary']}>
+                                            Your team doesn’t have a GitHub integration yet. Connect a repository to start tracking activity.
+                                        </span>
+                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                            <input
+                                                type="text"
+                                                placeholder="Owner/Repo"
+                                                value={repoInput}
+                                                onChange={(e) => setRepoInput(e.target.value)}
+                                                className={styles['page-home__input']}
+                                                style={{ marginTop: '10px' }}
+                                            />
 
-                                                <Button
-                                                    size="small"
-                                                    className={styles['page-home__card-button']}
-                                                    style={{ marginTop: '8px' }}
-                                                    variant="outline"
-                                                    onClick={() => {
-                                                        const param = encodeURIComponent(repoInput.trim());
-                                                        window.location.href =
-                                                            `http://localhost:4000/auth/github/login?repo=${param}`;
-                                                    }}
-                                                >
-                                                    + Add GitHub Repo
-                                                </Button>
-                                            </div>
+                                            <Button
+                                                size="small"
+                                                className={styles['page-home__card-button']}
+                                                style={{ marginTop: '8px' }}
+                                                variant="primary"
+                                                onClick={() => {
+                                                    const param = encodeURIComponent(repoInput.trim());
+                                                    window.location.href =
+                                                        `http://localhost:4000/auth/github/login?repo=${param}`;
+                                                }}
+                                            >
+                                                + Add GitHub Repo
+                                            </Button>
                                         </div>
+                                    </div>
                                     )}
                                 </div>
 
-                                <div className={styles['page-home__card-row']} style={{ 'height': '100%' }}>
-                                    <div className={styles['page-home__card-text-accent']}>
-                                        GitLab
-                                    </div>
+                                <div className={styles['page-home__card-row']}>
+                                    <div className={styles['page-home__card-text-accent']}>GitLab</div>
+
+                                    {auth?.user?.group?.integrations?.some(i => i.provider === "gitlab") ? (
+                                        (() => {
+                                            const git = auth.user.group.integrations.find(i => i.provider === "gitlab");
+                                            const [owner, repo] = git.repo_full_name.split("/");
+
+                                            return (
+                                                <>
+                                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                                        <span className={styles['page-home__card-text-secondary']}>
+                                                            ASTRA reads your GitLab repository to gather activity data for analysis.
+                                                            You can find the analysis on the "ASTRA Analysis" page.
+                                                        </span>
+                                                        <div style={{ marginTop: '4px' }}>
+                                                            <div className={styles['page-home__card-text']}>
+                                                                Connected repository: <span className={styles['page-home__card-text-accent']}>
+                                                                    {repo}
+                                                                </span>
+                                                            </div>
+                                                            <div className={styles['page-home__card-text']}>
+                                                                Owner: <span className={styles['page-home__card-text-accent']}>
+                                                                    {owner}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Owner/Repo"
+                                                                value={gitlabRepoInput}
+                                                                onChange={(e) => setGitlabRepoInput(e.target.value)}
+                                                                className={styles['page-home__input']}
+                                                                style={{ marginTop: '10px' }}
+                                                            />
+
+                                                            <Button
+                                                                size="small"
+                                                                className={styles['page-home__card-button']}
+                                                                style={{ marginTop: '8px' }}
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    const param = encodeURIComponent(gitlabRepoInput.trim());
+                                                                    window.location.href =
+                                                                        `http://localhost:4000/auth/gitlab/login?repo=${param}`;
+                                                                }}
+                                                            >
+                                                                Change Repository
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()
+                                    ) : (
                                     <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
                                         <span className={styles['page-home__card-text-secondary']}>
                                             Your team doesn’t have a GitLab integration yet. Connect a repository to start tracking activity.
                                         </span>
                                         <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
-                                            <Button size="small" className={styles['page-home__card-button']} variant="primary">
+                                            <input
+                                                type="text"
+                                                placeholder="Owner/Repo"
+                                                value={gitlabRepoInput}
+                                                onChange={(e) => setGitlabRepoInput(e.target.value)}
+                                                className={styles['page-home__input']}
+                                                style={{ marginTop: '10px' }}
+                                            />
+
+                                            <Button
+                                                size="small"
+                                                className={styles['page-home__card-button']}
+                                                style={{ marginTop: '8px' }}
+                                                variant="primary"
+                                                onClick={() => {
+                                                    const param = encodeURIComponent(gitlabRepoInput.trim());
+                                                    window.location.href =
+                                                        `http://localhost:4000/auth/gitlab/login?repo=${param}`;
+                                                }}
+                                            >
                                                 + Add GitLab Repo
                                             </Button>
                                         </div>
                                     </div>
+                                    )}
                                 </div>
 
 

@@ -7,6 +7,7 @@ from models.user import User
 from config import Config
 import jwt
 import datetime
+from datetime import timedelta
 from db import init_db, engine
 import requests
 
@@ -202,21 +203,39 @@ def analyze():
     with Session(engine) as session:
         user = session.get(User, user_id)
 
-        git_token = session.exec(
+        github_token = session.exec(
             select(GroupIntegrationToken).where(
                 GroupIntegrationToken.group_id == user.group_id,
                 GroupIntegrationToken.provider == "github"
             )
         ).first()
 
-        if not git_token:
-            return {"error": "no_token"}, 400
+        gitlab_token = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == user.group_id,
+                GroupIntegrationToken.provider == "gitlab"
+            )
+        ).first()
 
-        owner, repo = git_token.repo_full_name.split("/")
+        github_owner = github_repo = github_access = None
+        gitlab_owner = gitlab_repo = gitlab_access = None
+
+        if github_token:
+            github_owner, github_repo = github_token.repo_full_name.split("/")
+            github_access = github_token.access_token
+
+        if gitlab_token:
+            gitlab_owner, gitlab_repo = gitlab_token.repo_full_name.split("/")
+            gitlab_access = gitlab_token.access_token
 
         # board_id = "Ozbf2TiG"
-        board_id = ''
-        result = build_full_report(board_id, owner, repo, git_token.access_token)
+        board_id = ""
+
+        result = build_full_report(
+            board_id,
+            github_owner, github_repo, github_access,
+            gitlab_owner, gitlab_repo, gitlab_access
+        )
 
         return jsonify(result)
 
@@ -234,7 +253,6 @@ def github_login():
         "&state=" + repo
     )
     return redirect(url)
-
 
 @app.get("/auth/github/callback")
 def github_callback():
@@ -342,6 +360,78 @@ def create_group():
             "name": g.name,
             "created_at": g.created_at.isoformat()
         }
+        
+@app.get("/auth/gitlab/login")
+def gitlab_login():
+    repo = request.args.get("repo", "")
+
+    url = (
+        f"{Config.GITLAB_BASE_URL}/oauth/authorize"
+        f"?client_id={Config.GITLAB_CLIENT_ID}"
+        f"&redirect_uri={Config.GITLAB_REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope=read_api+read_user"
+        f"&state={repo}"
+    )
+    return redirect(url)
+
+@app.get("/auth/gitlab/callback")
+def gitlab_callback():
+    code = request.args.get("code")
+    repo_full_name = request.args.get("state")
+
+    if not code:
+        return jsonify({"error": "no_code"}), 400
+
+    token_resp = requests.post(
+        f"{Config.GITLAB_BASE_URL}/oauth/token",
+        data={
+            "client_id": Config.GITLAB_CLIENT_ID,
+            "client_secret": Config.GITLAB_CLIENT_SECRET,
+            "code": code,
+            "grant_type": "authorization_code",
+            "redirect_uri": Config.GITLAB_REDIRECT_URI
+        }
+    ).json()
+
+    access_token = token_resp.get("access_token")
+    if not access_token:
+        return jsonify({"error": "no_token"}), 400
+
+    token = request.cookies.get("astra.access_token")
+
+    if not token or not isinstance(token, str):
+        return jsonify({"error": "no_valid_jwt"}), 400
+
+    payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    user_id = payload["user_id"]
+
+    with Session(engine) as session:
+        user = session.get(User, user_id)
+        group_id = user.group_id
+
+        old = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == group_id,
+                GroupIntegrationToken.provider == "gitlab"
+            )
+        ).all()
+
+        for item in old:
+            session.delete(item)
+
+        new_item = GroupIntegrationToken(
+            group_id=group_id,
+            provider="gitlab",
+            access_token=access_token,
+            repo_full_name=repo_full_name,
+            created_at=datetime.datetime.utcnow()
+        )
+        session.add(new_item)
+        session.commit()
+
+    return redirect("http://localhost:3000")
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=4000)
