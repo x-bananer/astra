@@ -32,7 +32,7 @@ const PageHome = () => {
     const [teamNameInput, setTeamNameInput] = useState("");
     const [repoInput, setRepoInput] = useState("");
     const [gitlabRepoInput, setGitlabRepoInput] = useState("");
-    
+    const [gdocsInput, setGDocsInput] = useState("");
 
     async function handleCreateTeam() {
         await fetch("http://localhost:4000/groups/create", {
@@ -80,12 +80,20 @@ const PageHome = () => {
                         {auth?.user?.group?.id ?
                             <>
                                 <div className={styles['page-home__card-row']}>
-                                    Team name: {auth?.user?.group?.name}
+                                    Team name: <span className={styles['page-home__card-text-accent']}>
+                                        {auth?.user?.group?.name}
+                                    </span>
                                 </div>
-                                <div className={styles['page-home__card-row']}>
+
+                                <div className={styles['page-home__card-row']} style={{ "marginTop": "10px" }}>
+                                    Teammates:
                                     <ul className={styles['page-home__card-list']}>
                                         {auth?.user?.group?.members.map((member, index) => (
-                                            <li key={index}>{index + 1}. {member.name}</li>
+                                            <li key={index}>
+                                                {index + 1}. <span className={styles['page-home__card-text-accent']}>
+                                                    {member.name}
+                                                </span>
+                                            </li>
                                         ))}
                                     </ul>
                                 </div>
@@ -174,35 +182,35 @@ const PageHome = () => {
                                             );
                                         })()
                                     ) : (
-                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
-                                        <span className={styles['page-home__card-text-secondary']}>
-                                            Your team doesn’t have a GitHub integration yet. Connect a repository to start tracking activity.
-                                        </span>
-                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Owner/Repo"
-                                                value={repoInput}
-                                                onChange={(e) => setRepoInput(e.target.value)}
-                                                className={styles['page-home__input']}
-                                                style={{ marginTop: '10px' }}
-                                            />
+                                        <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                            <span className={styles['page-home__card-text-secondary']}>
+                                                Your team doesn’t have a GitHub integration yet. Connect a repository to start tracking activity.
+                                            </span>
+                                            <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Owner/Repo"
+                                                    value={repoInput}
+                                                    onChange={(e) => setRepoInput(e.target.value)}
+                                                    className={styles['page-home__input']}
+                                                    style={{ marginTop: '10px' }}
+                                                />
 
-                                            <Button
-                                                size="small"
-                                                className={styles['page-home__card-button']}
-                                                style={{ marginTop: '8px' }}
-                                                variant="primary"
-                                                onClick={() => {
-                                                    const param = encodeURIComponent(repoInput.trim());
-                                                    window.location.href =
-                                                        `http://localhost:4000/auth/github/login?repo=${param}`;
-                                                }}
-                                            >
-                                                + Add GitHub Repo
-                                            </Button>
+                                                <Button
+                                                    size="small"
+                                                    className={styles['page-home__card-button']}
+                                                    style={{ marginTop: '8px' }}
+                                                    variant="primary"
+                                                    onClick={() => {
+                                                        const param = encodeURIComponent(repoInput.trim());
+                                                        window.location.href =
+                                                            `http://localhost:4000/auth/github/login?repo=${param}`;
+                                                    }}
+                                                >
+                                                    + Add GitHub Repo
+                                                </Button>
+                                            </div>
                                         </div>
-                                    </div>
                                     )}
                                 </div>
 
@@ -262,35 +270,35 @@ const PageHome = () => {
                                             );
                                         })()
                                     ) : (
-                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
-                                        <span className={styles['page-home__card-text-secondary']}>
-                                            Your team doesn’t have a GitLab integration yet. Connect a repository to start tracking activity.
-                                        </span>
-                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
-                                            <input
-                                                type="text"
-                                                placeholder="Owner/Repo"
-                                                value={gitlabRepoInput}
-                                                onChange={(e) => setGitlabRepoInput(e.target.value)}
-                                                className={styles['page-home__input']}
-                                                style={{ marginTop: '10px' }}
-                                            />
+                                        <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                            <span className={styles['page-home__card-text-secondary']}>
+                                                Your team doesn’t have a GitLab integration yet. Connect a repository to start tracking activity.
+                                            </span>
+                                            <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Owner/Repo"
+                                                    value={gitlabRepoInput}
+                                                    onChange={(e) => setGitlabRepoInput(e.target.value)}
+                                                    className={styles['page-home__input']}
+                                                    style={{ marginTop: '10px' }}
+                                                />
 
-                                            <Button
-                                                size="small"
-                                                className={styles['page-home__card-button']}
-                                                style={{ marginTop: '8px' }}
-                                                variant="primary"
-                                                onClick={() => {
-                                                    const param = encodeURIComponent(gitlabRepoInput.trim());
-                                                    window.location.href =
-                                                        `http://localhost:4000/auth/gitlab/login?repo=${param}`;
-                                                }}
-                                            >
-                                                + Add GitLab Repo
-                                            </Button>
+                                                <Button
+                                                    size="small"
+                                                    className={styles['page-home__card-button']}
+                                                    style={{ marginTop: '8px' }}
+                                                    variant="primary"
+                                                    onClick={() => {
+                                                        const param = encodeURIComponent(gitlabRepoInput.trim());
+                                                        window.location.href =
+                                                            `http://localhost:4000/auth/gitlab/login?repo=${param}`;
+                                                    }}
+                                                >
+                                                    + Add GitLab Repo
+                                                </Button>
+                                            </div>
                                         </div>
-                                    </div>
                                     )}
                                 </div>
 
@@ -311,21 +319,90 @@ const PageHome = () => {
                                     </div>
                                 </div>
 
-                                <div className={styles['page-home__card-row']} style={{ 'height': '100%' }}>
-                                    <div className={styles['page-home__card-text-accent']}>
-                                        Google Docs
-                                    </div>
-                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
-                                        <span className={styles['page-home__card-text-secondary']}>
-                                            Your team doesn’t have a Google Docs integration yet. Connect your document to start tracking activity.
-                                        </span>
-                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
-                                            <Button size="small" className={styles['page-home__card-button']} variant="primary">
-                                                + Add Google Docs
-                                            </Button>
+                                <div className={styles['page-home__card-row']}>
+                                    <div className={styles['page-home__card-text-accent']}>Google Docs</div>
+
+                                    {auth?.user?.group?.integrations?.some(i => i.provider === "gdocs") ? (
+                                        (() => {
+                                            const gdocs = auth.user.group.integrations.find(i => i.provider === "gdocs");
+                                            const gdocsID = gdocs.repo_full_name;
+
+                                            return (
+                                                <>
+                                                    <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                                        <span className={styles['page-home__card-text-secondary']}>
+                                                            ASTRA reads metadata of your selected Google Docs document to gather activity information for analysis.
+                                                            You can find the analysis on the "ASTRA Analysis" page.
+                                                        </span>
+                                                        <div style={{ marginTop: '4px' }}>
+                                                            <div className={styles['page-home__card-text']}>
+                                                                Connected document: <span className={styles['page-home__card-text-accent']}>
+                                                                    <a target="_blank" href={`https://docs.google.com/document/d/${gdocsID}/view`}>https://doc...</a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Google Docs document link"
+                                                                value={gdocsInput}
+                                                                onChange={(e) => setGDocsInput(e.target.value)}
+                                                                className={styles['page-home__input']}
+                                                                style={{ marginTop: '10px' }}
+                                                            />
+
+                                                            <Button
+                                                                size="small"
+                                                                className={styles['page-home__card-button']}
+                                                                style={{ marginTop: '8px' }}
+                                                                variant="outline"
+                                                                onClick={() => {
+                                                                    const param = encodeURIComponent(gdocsInput.trim());
+                                                                    window.location.href =
+                                                                        `http://localhost:4000/auth/gdocs/login?doc=${param}`;
+                                                                }}
+                                                            >
+                                                                Change Link
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            );
+                                        })()
+                                    ) : (
+                                        <div style={{ 'height': '100%', 'display': 'flex', 'flexDirection': 'column' }}>
+                                            <span className={styles['page-home__card-text-secondary']}>
+                                                Your team doesn’t have a Google Docs integration yet. Connect your document to start tracking activity.
+                                            </span>
+                                            <div style={{ 'marginTop': 'auto', 'paddingTop': '12px' }}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Google Docs document link"
+                                                    value={gdocsInput}
+                                                    onChange={(e) => setGDocsInput(e.target.value)}
+                                                    className={styles['page-home__input']}
+                                                    style={{ marginTop: '10px' }}
+                                                />
+
+                                                <Button
+                                                    size="small"
+                                                    className={styles['page-home__card-button']}
+                                                    style={{ marginTop: '8px' }}
+                                                    variant="primary"
+                                                    onClick={() => {
+                                                        const param = encodeURIComponent(gdocsInput.trim());
+                                                        window.location.href =
+                                                            `http://localhost:4000/auth/gdocs/login?doc=${param}`;
+                                                    }}
+                                                >
+                                                    + Add Link
+                                                </Button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
+
+
                             </div> :
                             <div className={styles['page-home__card-row']}>
                                 To set up, edit, or view your integrations, you need to belong to a team.

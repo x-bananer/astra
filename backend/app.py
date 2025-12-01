@@ -217,8 +217,16 @@ def analyze():
             )
         ).first()
 
+        gdocs_token_obj = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == user.group_id,
+                GroupIntegrationToken.provider == "gdocs"
+            )
+        ).first()
+
         github_owner = github_repo = github_access = None
         gitlab_owner = gitlab_repo = gitlab_access = None
+        gdocs_id = gdocs_token = None
 
         if github_token:
             github_owner, github_repo = github_token.repo_full_name.split("/")
@@ -228,17 +236,20 @@ def analyze():
             gitlab_owner, gitlab_repo = gitlab_token.repo_full_name.split("/")
             gitlab_access = gitlab_token.access_token
 
-        # board_id = "Ozbf2TiG"
+        if gdocs_token_obj:
+            gdocs_id = gdocs_token_obj.repo_full_name
+            gdocs_token = gdocs_token_obj.access_token
+
         board_id = ""
 
         result = build_full_report(
             board_id,
             github_owner, github_repo, github_access,
-            gitlab_owner, gitlab_repo, gitlab_access
+            gitlab_owner, gitlab_repo, gitlab_access,
+            gdocs_id, gdocs_token
         )
 
         return jsonify(result)
-
 
 # GitHub Repository Access 
 
@@ -432,6 +443,77 @@ def gitlab_callback():
 
     return redirect("http://localhost:3000")
 
+@app.get("/auth/gdocs/login")
+def gdocs_login():
+    doc_id = request.args.get("doc", "")
+
+    url = (
+        "https://accounts.google.com/o/oauth2/v2/auth"
+        f"?client_id={Config.GDOCS_CLIENT_ID}"
+        f"&redirect_uri={Config.GDOCS_REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope=https://www.googleapis.com/auth/documents.readonly https://www.googleapis.com/auth/drive.metadata.readonly"
+        f"&access_type=offline"
+        f"&prompt=consent"
+        f"&state={doc_id}"
+    )
+    return redirect(url)
+
+
+@app.get("/auth/gdocs/callback")
+def gdocs_callback():
+    code = request.args.get("code")
+    doc_id = request.args.get("state")
+
+    if not code:
+        return jsonify({"error": "no_code"}), 400
+
+    token_resp = requests.post(
+        "https://oauth2.googleapis.com/token",
+        data={
+            "client_id": Config.GDOCS_CLIENT_ID,
+            "client_secret": Config.GDOCS_CLIENT_SECRET,
+            "code": code,
+            "grant_type": "authorization_code",
+            "redirect_uri": Config.GDOCS_REDIRECT_URI
+        }
+    ).json()
+
+    access_token = token_resp.get("access_token")
+    if not access_token:
+        return jsonify({"error": "no_token"}), 400
+
+    token = request.cookies.get("astra.access_token")
+    if not token or not isinstance(token, str):
+        return jsonify({"error": "no_valid_jwt"}), 400
+
+    payload = jwt.decode(token, Config.SECRET_KEY, algorithms=["HS256"])
+    user_id = payload["user_id"]
+
+    with Session(engine) as session:
+        user = session.get(User, user_id)
+        group_id = user.group_id
+
+        old = session.exec(
+            select(GroupIntegrationToken).where(
+                GroupIntegrationToken.group_id == group_id,
+                GroupIntegrationToken.provider == "gdocs"
+            )
+        ).all()
+        for item in old:
+            session.delete(item)
+
+        new_item = GroupIntegrationToken(
+            group_id=group_id,
+            provider="gdocs",
+            access_token=access_token,
+            repo_full_name=doc_id,
+            created_at=datetime.datetime.utcnow()
+        )
+        session.add(new_item)
+        session.commit()
+
+    return redirect("http://localhost:3000")
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=4000)
