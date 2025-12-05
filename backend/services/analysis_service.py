@@ -17,30 +17,37 @@ def load_cache(session, group_id, start_date):
     # cache entry expires after 1 hour
     CACHE_EXPIRE_HOURS = 1
     
-    # find cached analysis for this group + date
-    cached_analysis = session.exec(
+    cached = session.exec(
         select(AnalysisCache).where(
             AnalysisCache.group_id == group_id,
             AnalysisCache.start_date == start_date
         )
     ).one_or_none()
 
-    # no cache found
-    if not cached_analysis:
+    if not cached:
         return None
 
-    # check how old the cache is
-    age = datetime.utcnow() - cached_analysis.created_at
+    # age check
+    age = datetime.utcnow() - cached.created_at
+    if age >= timedelta(hours=CACHE_EXPIRE_HOURS):
+        return None
 
-    # if cache is still valid return its result
-    if age < timedelta(hours=CACHE_EXPIRE_HOURS):
-        return json.loads(cached_analysis.result_json)
+    # get current integrations state
+    current_state = get_group_integrations_state(session, group_id)
 
-    # cache exists but expired
-    return None
+    # get cached state
+    cached_state = json.loads(cached.config_json)
 
+    # if integrations changed invalidate cache
+    if current_state != cached_state:
+        return None
 
+    # valid cache
+    return json.loads(cached.result_json)
+    
 def save_cache(session, group_id, start_date, result):
+    current_state = get_group_integrations_state(session, group_id)
+
     # check if cache already exists for this group + date
     cached_analysis = session.exec(
         select(AnalysisCache).where(
@@ -59,11 +66,31 @@ def save_cache(session, group_id, start_date, result):
             group_id=group_id,
             start_date=start_date,
             result_json=result,
+            config_json=json.dumps(current_state),
             created_at=datetime.utcnow()
         )
     )
 
     session.commit()
+
+def get_group_integrations_state(session, group_id):
+    integrations = session.exec(
+        select(GroupClient).where(GroupClient.group_id == group_id)
+    ).all()
+
+    result = []
+
+    for item in integrations:
+        entry = {
+            "provider": item.provider,
+            "resource_ref": item.resource_ref,
+            "access_token": item.access_token
+        }
+        result.append(entry)
+
+    result.sort(key=lambda x: x["provider"])
+
+    return result
 
 def get_analysis(user_id, start_date = ""):
     with Session(engine) as session:        
@@ -165,10 +192,13 @@ def get_analysis(user_id, start_date = ""):
         }
 
         # save new cache
+        current_state = get_group_integrations_state(session, group_id)
+
         new_cache = AnalysisCache(
             group_id=group_id,
             start_date=start_date,
             result_json=json.dumps(result, ensure_ascii=False),
+            config_json=json.dumps(current_state, ensure_ascii=False),
             created_at=datetime.utcnow()
         )
 

@@ -7,4 +7,5 @@ class AnalysisCache(SQLModel, table=True):
     group_id: str = Field(foreign_key="group.id")
     start_date: Optional[str] = Field(default=None, index=True)
     result_json: str
+    config_json: str
     created_at: datetime = Field(default_factory=datetime.utcnow)

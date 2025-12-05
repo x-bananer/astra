@@ -1,8 +1,7 @@
 from flask import Blueprint, request
 
 from services.auth_service import get_user, get_curent_user_id
-from services.group_service import create_group, add_member, remove_member
-
+from services.group_service import create_group, add_member, remove_member, remove_client
 
 group_bp = Blueprint("groups", __name__)
 
@@ -50,5 +49,19 @@ def groups_remove_member():
     requester = get_user(user_id_response["user_id"])
     
     result, status = remove_member(requester, user_id_to_remove)
+    return result, status
+
+@group_bp.post("/groups/remove-client")
+def groups_remove_lient():
+    data = request.json
+    provider = data.get("provider")
+
+    user_id_response = get_curent_user_id()
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
+        return user_id_response
+
+    requester = get_user(user_id_response["user_id"])
+
+    result, status = remove_client(requester, provider)
     return result, status
     

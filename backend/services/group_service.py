@@ -159,3 +159,24 @@ def remove_member(requester, user_id_to_remove):
             session.commit()
 
     return {"status": "OK"}, 200
+
+
+def remove_client(requester, provider):
+    if requester.group_id is None:
+        return {"error": "You need to be in a group to remove integrations."}, 400
+
+    with Session(engine) as session:
+        client = session.exec(
+            select(GroupClient).where(
+                GroupClient.group_id == requester.group_id,
+                GroupClient.provider == provider
+            )
+        ).first()
+
+        if not client:
+            return {"error": "Not found"}, 404
+
+        session.delete(client)
+        session.commit()
+
+    return {"status": "OK"}, 200
