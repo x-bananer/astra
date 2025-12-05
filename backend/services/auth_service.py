@@ -1,3 +1,4 @@
+from flask import request
 import jwt
 import datetime
 from sqlmodel import Session, select
@@ -36,7 +37,21 @@ def resolve_user(email, name, avatar):
 
         return user
 
-def get_user(user_id):
+def get_curent_user_id():
+    astra_access_token = request.cookies.get(Config.ACCESS_TOKEN_COOKIE)
+    if not astra_access_token:
+        return {"error": "Unauthenticated"}, 401
+
+    try:
+        jwt_payload = jwt.decode(astra_access_token, Config.SECRET_KEY, algorithms=["HS256"])
+    except Exception:
+        return {"error": "Unauthenticated"}, 401
+    
+    return {
+        "user_id": jwt_payload["user_id"]
+    }
+
+def get_user(user_id):    
     with Session(engine) as session:
         user = session.get(User, user_id)
         

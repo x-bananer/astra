@@ -1,6 +1,6 @@
 import google.generativeai as genai
-import json
 from dotenv import load_dotenv
+import json
 import os
 import re
 
@@ -102,21 +102,23 @@ SYSTEM_PROMPT = """
     - When describing contribution differences, present them neutrally and factually.
 """
 
-
-def analyze_teamwork(data: dict) -> dict:
-    """
-    Takes structured teamwork data (GitHub, Trello, Google Docs)
-    and returns analysis + recommendations from GPT.
-    """
+def generate_team_report(data: dict) -> dict:
+    # send data + system prompt to the model
     response = model.generate_content(
         SYSTEM_PROMPT + "\nTEAMWORK_DATA:\n" + str(data) + "\nReturn JSON output only.",
         generation_config={"temperature": 0.2}
     )
+
+    # raw model output
     content = response.text.strip()
+
     try:
+        # remove code fences if model returns json blocks
         cleaned = re.sub(r"^```[a-zA-Z]*\n?|```$", "", content).strip()
 
+        # parse JSON output
         return json.loads(cleaned)
+
     except Exception:
         return {
             "summary": "Model returned non-JSON output.",

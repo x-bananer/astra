@@ -5,7 +5,7 @@ from config import Config
 from db import init_db
 
 from routes.auth_routes import auth_bp
-from backend.routes.analysis_routes import analysis_bp
+from routes.analysis_routes import analysis_bp
 from routes.client_routes import client_bp
 from routes.group_routes import group_bp
 

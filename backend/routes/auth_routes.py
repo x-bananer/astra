@@ -4,7 +4,7 @@ import jwt
 
 from config import Config
 
-from services.auth_service import get_google_userinfo, resolve_user, create_jwt, get_user
+from services.auth_service import get_google_userinfo, resolve_user, create_jwt, get_user, get_curent_user_id
 
 
 auth_bp = Blueprint("auth", __name__)
@@ -51,24 +51,16 @@ def google_callback():
 
 @auth_bp.get("/auth/user")
 def auth_user():
-    astra_access_token = request.cookies.get(Config.ACCESS_TOKEN_COOKIE)
-    
-    if not astra_access_token:
-        return {"error": "Unauthenticated"}, 401
+    user_id_response = get_curent_user_id()
+    if "error" in user_id_response:
+        return user_id_response
 
-    try:
-        jwt_payload = jwt.decode(astra_access_token, Config.SECRET_KEY, algorithms=["HS256"])
-    except Exception:
-        return {"error": "Unauthenticated"}, 401
+    user = get_user(user_id_response["user_id"])
 
-    user_id = jwt_payload["user_id"]
-    user_data = get_user(user_id)
-
-    return jsonify({
+    return {
         "authenticated": True,
-        "user": user_data
-    })
-        
+        "user": user
+    }
 
 @auth_bp.post("/auth/logout")
 def auth_logout():

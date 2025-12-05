@@ -1,10 +1,11 @@
 from sqlmodel import Session, select
 from db import engine
 
-from models.user import User
 from models.group_client import GroupClient
+from models.user import User
 
-from clients_hub import build_full_report
+from clients.clients_hub import collect_clients_data
+from engines.llm_engine import generate_team_report
 
 def get_analysis(user_id):
     with Session(engine) as session:
@@ -59,14 +60,24 @@ def get_analysis(user_id):
             gdocs_doc_id = gdocs_data.resource_ref
             gdocs_token = gdocs_data.access_token
             
-        # TODO Trello
-        board_id = ""
+        # TODO Trello board_id = ""
+        
+        clients_data_config = {
+            # TODO Trello "board_id": board_id,
+            "github_owner": github_owner,
+            "github_repo": github_repo,
+            "github_token": github_token,
+            "gitlab_owner": gitlab_owner,
+            "gitlab_repo": gitlab_repo,
+            "gitlab_token": gitlab_token,
+            "gdocs_id": gdocs_doc_id,
+            "gdocs_token": gdocs_token,
+        }
 
-        result = build_full_report(
-            board_id,
-            github_owner, github_repo, github_token,
-            gitlab_owner, gitlab_repo, gitlab_token,
-            gdocs_doc_id, gdocs_token
-        )
+        data = collect_clients_data(clients_data_config)
+        analysis = generate_team_report(data)
 
-        return result
+        return {
+            "data": data,
+            "analysis": analysis
+        }

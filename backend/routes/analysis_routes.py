@@ -4,21 +4,17 @@ import jwt
 from config import Config
 
 from services.analysis_service import get_analysis
+from services.auth_service import get_curent_user_id
 
 
 analysis_bp = Blueprint("analyze", __name__)
 
 @analysis_bp.get("/analysis/get")
 def analyze():
-    astra_access_token = request.cookies.get(Config.ACCESS_TOKEN_COOKIE)
-
-    try:
-        jwt_payload = jwt.decode(astra_access_token, Config.SECRET_KEY, algorithms=["HS256"])
-    except Exception:
-        return {"error": "Unauthenticated"}, 401
-
-    user_id = jwt_payload["user_id"]
+    user_id_response = get_curent_user_id()
+    if "error" in user_id_response:
+        return user_id_response
     
-    result = get_analysis(user_id)
+    result = get_analysis(user_id_response["user_id"])
     
-    return jsonify(result)
+    return result
