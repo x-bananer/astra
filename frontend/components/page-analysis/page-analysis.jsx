@@ -16,7 +16,7 @@ const PageAnalysis = () => {
     
         async function load() {
             try {
-                const res = await fetch("http://localhost:4000/analyze", {
+                const res = await fetch("http://localhost:4000/analysis/get", {
                     method: "GET",
                     headers: {
                         "Accept": "application/json"

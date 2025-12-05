@@ -4,7 +4,7 @@ export function middleware(req) {
     const url = req.nextUrl.clone();
     const path = url.pathname;
 
-    const token = req.cookies.get("astra.access_token")?.value;
+    const astra_access_token = req.cookies.get("astra.access_token")?.value;
 
     if (
         path.startsWith("/images") ||
@@ -22,14 +22,14 @@ export function middleware(req) {
     }
 
     if (path.includes("login")) {
-        if (token) {
+        if (astra_access_token) {
             url.pathname = "/";
             return NextResponse.redirect(url);
         }
         return NextResponse.next();
     }
 
-    if (!token) {
+    if (!astra_access_token) {
         url.pathname = "/login";
         return NextResponse.redirect(url);
     }
