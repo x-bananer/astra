@@ -25,21 +25,28 @@ def gitlab_safe_get(url, token=None):
     except Exception:
         return {"error": "GitLab returned an unexpected response. Please try again later."}
 
-def get_gitlab_commits(owner, repo, token):
+def get_gitlab_commits(owner, repo, token, start_date):
     MAX_COMMITS = 300
-    MAX_DAYS = 7
+    MAX_DAYS = 14
 
-    # calculate the start date (7 days ago)
-    date_to = datetime.utcnow()
-    date_from = date_to - timedelta(days=MAX_DAYS)
-    since = (date_from).isoformat() + "Z"
+    # calculate the start date 
+    if start_date:
+        date_from = datetime.fromisoformat(start_date)
+    else:
+        date_to = datetime.utcnow()
+        date_from = date_to - timedelta(days=MAX_DAYS)
+
+    date_to = date_from + timedelta(days=MAX_DAYS)
+
+    since = date_from.isoformat() + "Z"
+    until = date_to.isoformat() + "Z"
     
     encoded = quote(f"{owner}/{repo}", safe="")
     
     # build URL for the list of recent commits
     repo_commits_url = (
         f"{Config.GITLAB_BASE_API}/projects/{encoded}/repository/commits"
-        f"?since={since}&per_page={MAX_COMMITS}"
+        f"?since={since}&until={until}&per_page={MAX_COMMITS}"
     )
 
     # request list of commits

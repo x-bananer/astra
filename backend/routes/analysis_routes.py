@@ -10,11 +10,13 @@ from services.auth_service import get_curent_user_id
 analysis_bp = Blueprint("analyze", __name__)
 
 @analysis_bp.get("/analysis/get")
-def analyze():
+def analysis_get():
+    start_date = request.args.get("start_date")
+    
     user_id_response = get_curent_user_id()
     if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
-    result = get_analysis(user_id_response["user_id"])
+    result = get_analysis(user_id_response["user_id"], start_date)
     
     return result

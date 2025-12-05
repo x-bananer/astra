@@ -7,7 +7,7 @@ from models.user import User
 from clients.clients_hub import collect_clients_data
 from engines.llm_engine import generate_team_report
 
-def get_analysis(user_id):
+def get_analysis(user_id, start_date = ""):
     with Session(engine) as session:
         user = session.get(User, user_id)
 
@@ -72,6 +72,8 @@ def get_analysis(user_id):
             "gitlab_token": gitlab_token,
             "gdocs_id": gdocs_doc_id,
             "gdocs_token": gdocs_token,
+            
+            "start_date": start_date,
         }
 
         data = collect_clients_data(clients_data_config)

@@ -17,7 +17,8 @@ def collect_clients_data(config):
         github_raw = get_github_commits(
             config["github_owner"],
             config["github_repo"],
-            config["github_token"]
+            config["github_token"],
+            config["start_date"]
         )
         github = build_github_stats(github_raw)
 
@@ -27,7 +28,8 @@ def collect_clients_data(config):
         gitlab_raw = get_gitlab_commits(
             config["gitlab_owner"],
             config["gitlab_repo"],
-            config["gitlab_token"]
+            config["gitlab_token"],
+            config["start_date"]
         )
         gitlab = build_gitlab_stats(gitlab_raw) 
 
@@ -36,7 +38,7 @@ def collect_clients_data(config):
     if config["gdocs_token"]:
         gdocs_raw = get_gdocs_revisions(
             config["gdocs_id"],
-            config["gdocs_token"]
+            config["gdocs_token"],
         )
         gdocs = build_gdocs_stats(gdocs_raw)
 
