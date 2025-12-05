@@ -1,15 +1,91 @@
+from datetime import datetime, timedelta
 from sqlmodel import Session, select
 from db import engine
+import json
 
+from models.analysis_cache import AnalysisCache
 from models.group_client import GroupClient
 from models.user import User
 
 from clients.clients_hub import collect_clients_data
 from engines.llm_engine import generate_team_report
+from services.auth_service import get_user
+
+CACHE_EXPIRE_HOURS = 1
+
+def load_cache(session, group_id, start_date):
+    # cache entry expires after 1 hour
+    CACHE_EXPIRE_HOURS = 1
+    
+    # find cached analysis for this group + date
+    cached_analysis = session.exec(
+        select(AnalysisCache).where(
+            AnalysisCache.group_id == group_id,
+            AnalysisCache.start_date == start_date
+        )
+    ).one_or_none()
+
+    # no cache found
+    if not cached_analysis:
+        return None
+
+    # check how old the cache is
+    age = datetime.utcnow() - cached_analysis.created_at
+
+    # if cache is still valid return its result
+    if age < timedelta(hours=CACHE_EXPIRE_HOURS):
+        return json.loads(cached_analysis.result_json)
+
+    # cache exists but expired
+    return None
+
+
+def save_cache(session, group_id, start_date, result):
+    # check if cache already exists for this group + date
+    cached_analysis = session.exec(
+        select(AnalysisCache).where(
+            AnalysisCache.group_id == group_id,
+            AnalysisCache.start_date == start_date
+        )
+    ).one_or_none()
+
+    # remove old cache entry
+    if cached_analysis:
+        session.delete(cached_analysis)
+
+    # save new cache entry
+    session.add(
+        AnalysisCache(
+            group_id=group_id,
+            start_date=start_date,
+            result_json=result,
+            created_at=datetime.utcnow()
+        )
+    )
+
+    session.commit()
 
 def get_analysis(user_id, start_date = ""):
-    with Session(engine) as session:
-        user = session.get(User, user_id)
+    with Session(engine) as session:        
+        user = get_user(user_id)
+        group_id = user.group_id
+        
+        # try returning cached result
+        cached = load_cache(session, group_id, start_date)
+        if cached:
+            return cached
+
+        cached_analysis = session.exec(
+            select(AnalysisCache).where(
+                AnalysisCache.group_id == group_id,
+                AnalysisCache.start_date == start_date
+            )
+        ).one_or_none()
+
+        if cached_analysis:
+            cache_age = datetime.utcnow() - cached_analysis.created_at
+            if cache_age < timedelta(hours=CACHE_EXPIRE_HOURS):
+                return cached_analysis.result_json
 
         # GitHub data
         github_owner = None
@@ -83,7 +159,24 @@ def get_analysis(user_id, start_date = ""):
         
         analysis = generate_team_report(data)
 
-        return {
+        result = {
             "data": data,
             "analysis": analysis
         }
+
+        # save new cache
+        new_cache = AnalysisCache(
+            group_id=group_id,
+            start_date=start_date,
+            result_json=json.dumps(result, ensure_ascii=False),
+            created_at=datetime.utcnow()
+        )
+
+        # remove old record
+        if cached_analysis:
+            session.delete(cached_analysis)
+
+        session.add(new_cache)
+        session.commit()
+
+        return result
