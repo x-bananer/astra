@@ -4,6 +4,7 @@ from datetime import datetime
 
 class AnalysisCache(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    type: str
     group_id: str = Field(foreign_key="group.id")
     start_date: Optional[str] = Field(default=None, index=True)
     result_json: str

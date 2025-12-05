@@ -36,16 +36,16 @@ const AppHeader = ({ className }) => {
                     Dashboard
                 </AppHeaderLink>
                 <AppHeaderLink
-                    href='/analysis'
-                    className={styles['app-header__nav-link']}
-                >
-                    ASTRA Analysis
-                </AppHeaderLink>
-                <AppHeaderLink
                     href='/statistics'
                     className={styles['app-header__nav-link']}
                 >
                     Statistics
+                </AppHeaderLink>
+                <AppHeaderLink
+                    href='/analysis'
+                    className={styles['app-header__nav-link']}
+                >
+                    ASTRA Analysis
                 </AppHeaderLink>
             </nav>
 

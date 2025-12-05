@@ -17,13 +17,41 @@
     font-size: 16px;
 }
 
+.page-home-card__description {
+    white-space: pre-wrap;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.page-home-card__title {
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #D0D0D0;
+    font-weight: 600;
+    font-size: 18px;
+    display: block;
+}
+
 .page-home-card__text {
-    font-size: 16px;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+
+.page-home-card__text:last-child {
+    padding-bottom: 0;
 }
 
 .page-home-card__text-secondary {
     font-size: 14px;
     color: #808080;
+}
+
+.page-home-card__text-gray {
+    color: #808080;
+}
+
+.page-home-card__text-small {
+    font-size: 14px;
 }
 
 .page-home-card__input {

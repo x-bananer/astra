@@ -13,10 +13,9 @@ const PageAnalysis = () => {
     const [repoInput, setRepoInput] = useState("");
 
     useEffect(() => {
-    
         async function load() {
             try {
-                const res = await fetch("http://localhost:4000/analysis/get", {
+                const res = await fetch("http://localhost:4000/analysis/llm", {
                     method: "GET",
                     headers: {
                         "Accept": "application/json"
@@ -38,52 +37,25 @@ const PageAnalysis = () => {
     return (
         <div className={styles['page-home']}>
             <div className={styles['page-home__header']}>
-                <h1 className={styles['page-home__title']}>Analysis</h1>
+                <h1 className={styles['page-home__title']}>ASTRA Analysis</h1>
+                <p className={styles['page-home__subtitle']}>
+                    The analysis updates every hour and always covers two weeks of team work data – short enough to reflect your current workflow, long enough to avoid noise
+                </p>
             </div>
-
-
-            {/* <Button style={{'marginTop': '10px', 'marginBottom': '20px'}} variant="outline" onClick={async () => {
-                await fetch("http://localhost:4000/groups/create", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    credentials: "include",
-                    body: JSON.stringify({ name: "Team #9" })
-                });
-            }}>
-                + Create Group
-            </Button> */}
-
-
-            {/* <input
-                type="text"
-                placeholder="owner/repo"
-                value={repoInput}
-                onChange={(e) => setRepoInput(e.target.value)}
-                style={{ marginBottom: "10px", padding: "8px", width: "250px", display: "block" }}
-            />
-
-            <Button variant="outline" style={{'marginTop': '10px', 'marginBottom': '20px'}} onClick={() => {
-                const param = encodeURIComponent(repoInput.trim());
-                window.location.href = `http://localhost:4000/auth/github/login?repo=${param}`;
-            }}>
-                + Add GitHub Repo
-            </Button> */}
-
-            
 
             <div className={styles['page-home__content']}>
                 {loading && (
                     <div className={styles['page-home__stub']}>
                         Analyzing your team activity...
                         <br></br>
-                        This may take a moment.
+                        This may take a few minutes! Please don't refresh the page
                     </div>
                 )
                 }
 
                 {!data && !loading && (
                     <div className={styles['page-home__stub']}>
-                        Oops! No data...
+                        Oops! No data yet...
                     </div>
                 )
                 }

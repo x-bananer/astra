@@ -40,6 +40,20 @@
     font-size: 14px;
 }
 
+.button--icon {
+    height: unset;
+    width: unset;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    color: #808080;
+}
+
+.button--icon:hover {
+    color: var(--color-primary);
+}
+
 .button--link {
     padding: 0;
     color: var(--color-text-main);

@@ -18,13 +18,23 @@
     margin-top: 4px;
 }
 
+.page-home__box-title {
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 12px;
+}
+
 .page-home__header + .page-home__content {
-    margin-top: 20px;
+    margin-top: 24px;
+}
+
+.page-home__box + .page-home__box {
+    margin-top: 24px;
 }
 
 .page-home__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 20px;
     grid-row-gap: 20px;
 }
@@ -59,9 +69,10 @@
 }
 
 .page-home__card-title {
-    padding-bottom: 16px;
+    padding-bottom: 12px;
     font-weight: 600;
     font-size: 18px;
+
 }
 
 .page-home__card-row {
@@ -74,7 +85,7 @@
 .page-home__card-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
     font-size: 16px;
 }
 
