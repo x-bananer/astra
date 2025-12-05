@@ -19,13 +19,14 @@ def get_group(group_id):
         ).all()
 
         for member in members:
-            group_user = session.get(User, member.user_id)
-            if group_user:
+            member_user = session.get(User, member.user_id)
+            if member_user:
                 group_users.append({
-                    "id": group_user.id,
-                    "email": group_user.email,
-                    "name": group_user.name,
-                    "avatar": group_user.avatar
+                    "id": member.id,
+                    "user_id": member_user.id,
+                    "email": member_user.email,
+                    "name": member_user.name,
+                    "avatar": member_user.avatar
                 })
 
         # Group clients
@@ -153,7 +154,7 @@ def remove_member(requester, user_id_to_remove):
 
         if len(remaining_members) == 0:
             # delete group
-            group = get_group(requester.group_id)
+            group = session.get(Group, requester.group_id)
             session.delete(group)
             session.commit()
 
