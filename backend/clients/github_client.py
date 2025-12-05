@@ -14,17 +14,17 @@ def github_safe_get(url, token=None):
 
     # rate limit exceeded
     if response.status_code == 403 and "rate limit" in response.text.lower():
-        return {"error": "GitHub rate limit exceeded. Please try again later."}, response.status_code
+        return {"error": "GitHub rate limit exceeded. Please try again later."}
 
     # any other GitHub API error
     if response.status_code >= 400:
-        return {"error": "GitHub returned an error while fetching data."}, response.status_code
+        return {"error": "GitHub returned an error while fetching data."}
 
     # try parsing response
     try:
         return response.json()
     except Exception:
-        return {"error": "GitHub returned an unexpected response. Please try again later."}, 401
+        return {"error": "GitHub returned an unexpected response. Please try again later."}
 
 def get_github_commits(owner, repo, token):
     MAX_COMMITS = 300

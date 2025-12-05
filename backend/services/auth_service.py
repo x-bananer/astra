@@ -25,7 +25,7 @@ def resolve_user(email, name, avatar):
     with Session(engine) as session:
         user = session.exec(
             select(User).where(User.email == email)
-        ).one()
+        ).one_or_none()
 
         if user:
             return user

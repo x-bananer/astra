@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from config import Config
 
-def gdocs_save_get(url, token):
+def gdocs_safe_get(url, token):
     headers = {}
     if token:
         headers["Authorization"] = f"Bearer {token}"
@@ -12,23 +12,23 @@ def gdocs_save_get(url, token):
 
     # rate limit exceeded
     if response.status_code == 403 and "rateLimit" in response.text:
-        return {"error": "Google API rate limit exceeded. Please try again later."}, response.status_code
+        return {"error": "Google API rate limit exceeded. Please try again later."}
 
     # any other API error
     if response.status_code >= 400:
-        return {"error": "Google API returned an error while fetching data."}, response.status_code
+        return {"error": "Google API returned an error while fetching data."}
 
     # parse JSON
     try:
         return response.json()
     except Exception:
-        return {"error": "Google API returned an unexpected response. Please try again later."}, 401
+        return {"error": "Google API returned an unexpected response. Please try again later."}
 
 def get_gdocs_revisions(doc_id, token):
     # build URL for the list of revisions
     doc_revisions_url = f"{Config.GDRIVE_BASE_API}/files/{doc_id}/revisions"
     
-    doc_data = gdocs_save_get(doc_revisions_url, token)
+    doc_data = gdocs_safe_get(doc_revisions_url, token)
     
     # stop if GitHub returned an error
     if "error" in doc_data:

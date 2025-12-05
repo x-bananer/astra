@@ -37,7 +37,7 @@ def github_callback():
         return {"error": "GitHub authorization failed"}, 400
     
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     user = get_user(user_id_response["user_id"])
@@ -78,7 +78,7 @@ def gitlab_callback():
         return {"error": "GitLab authorization failed"}, 400
     
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     user = get_user(user_id_response["user_id"])
@@ -121,7 +121,7 @@ def gdocs_callback():
         return {"error": "Google authorization failed"}, 400
     
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     user = get_user(user_id_response["user_id"])

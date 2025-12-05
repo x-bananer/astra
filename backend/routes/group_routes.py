@@ -15,7 +15,7 @@ def create_group():
         return {"error": "Pass the group name"}, 400
 
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     user = get_user(user_id_response["user_id"])
@@ -29,7 +29,7 @@ def add_member():
     email = data.get("email")
 
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     requester = get_user(user_id_response["user_id"])
@@ -43,7 +43,7 @@ def remove_member():
     user_id_to_remove = data.get("user_id")
 
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
 
     requester = get_user(user_id_response["user_id"])

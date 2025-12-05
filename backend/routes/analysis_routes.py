@@ -12,7 +12,7 @@ analysis_bp = Blueprint("analyze", __name__)
 @analysis_bp.get("/analysis/get")
 def analyze():
     user_id_response = get_curent_user_id()
-    if "error" in user_id_response:
+    if "error" in user_id_response or isinstance(user_id_response, tuple):
         return user_id_response
     
     result = get_analysis(user_id_response["user_id"])

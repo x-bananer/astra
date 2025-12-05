@@ -4,28 +4,41 @@ from clients.gdocs_client import build_gdocs_stats, get_gdocs_revisions
 # TODO Trello from clients.trello_client import build_trello_stats
 
 def collect_clients_data(config):
-    # TODO Trello trello = build_trello_stats(config["board_id"])
+    
     trello = None
+    # TODO Trello
+    # if config["board_id"]:
+    #     trello = build_trello_stats(config["board_id"])
+    #     pass
 
-    github_data = get_github_commits(
-        config["github_owner"],
-        config["github_repo"],
-        config["github_token"]
-    )
-    github = build_github_stats(github_data)
+    # GitHub
+    github = None
+    if config["github_token"]:
+        github_raw = get_github_commits(
+            config["github_owner"],
+            config["github_repo"],
+            config["github_token"]
+        )
+        github = build_github_stats(github_raw)
 
-    gitlab_data = get_gitlab_commits(
-        config["gitlab_owner"],
-        config["gitlab_repo"],
-        config["gitlab_token"]
-    )
-    gitlab = build_gitlab_stats(gitlab_data)
+    # GitLab
+    gitlab = None
+    if config["gitlab_token"]:
+        gitlab_raw = get_gitlab_commits(
+            config["gitlab_owner"],
+            config["gitlab_repo"],
+            config["gitlab_token"]
+        )
+        gitlab = build_gitlab_stats(gitlab_raw) 
 
-    gdocs_data = get_gdocs_revisions(
-        config["gdocs_id"],
-        config["gdocs_token"]
-    )
-    gdocs = build_gdocs_stats(gdocs_data)
+    # Google Docs
+    gdocs = None
+    if config["gdocs_token"]:
+        gdocs_raw = get_gdocs_revisions(
+            config["gdocs_id"],
+            config["gdocs_token"]
+        )
+        gdocs = build_gdocs_stats(gdocs_raw)
 
     return {
         "trello": trello,

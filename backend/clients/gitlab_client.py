@@ -13,17 +13,17 @@ def gitlab_safe_get(url, token=None):
 
     # rate limit exceeded
     if response.status_code == 403 and "rate limit" in response.text.lower():
-        return {"error": "GitLab rate limit exceeded. Please try again later."}, response.status_code
+        return {"error": "GitLab rate limit exceeded. Please try again later."}
 
     # any other GitLab API error
     if response.status_code >= 400:
-        return {"error": "GitLab returned an error while fetching data."}, response.status_code
+        return {"error": "GitLab returned an error while fetching data."}
 
     # try parsing response
     try:
         return response.json()
     except Exception:
-        return {"error": "GitLab returned an unexpected response. Please try again later."}, 401
+        return {"error": "GitLab returned an unexpected response. Please try again later."}
 
 def get_gitlab_commits(owner, repo, token):
     MAX_COMMITS = 300

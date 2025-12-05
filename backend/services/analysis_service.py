@@ -21,7 +21,7 @@ def get_analysis(user_id):
                 GroupClient.group_id == user.group_id,
                 GroupClient.provider == "github"
             )
-        ).one()
+        ).one_or_none()
         
         if github_data is not None:
             github_owner, github_repo = github_data.resource_ref.split("/")
@@ -38,7 +38,7 @@ def get_analysis(user_id):
                 GroupClient.group_id == user.group_id,
                 GroupClient.provider == "gitlab"
             )
-        ).one()
+        ).one_or_none()
 
         if gitlab_data is not None:
             gitlab_owner, gitlab_repo = gitlab_data.resource_ref.split("/")
@@ -54,7 +54,7 @@ def get_analysis(user_id):
                 GroupClient.group_id == user.group_id,
                 GroupClient.provider == "gdocs"
             )
-        ).one()
+        ).one_or_none()
         
         if gdocs_data is not None:
             gdocs_doc_id = gdocs_data.resource_ref
@@ -75,6 +75,10 @@ def get_analysis(user_id):
         }
 
         data = collect_clients_data(clients_data_config)
+        
+        if not any([data["github"], data["gitlab"], data["gdocs"], data["trello"]]):
+            return {"error": "No data available for analysis"}, 400
+        
         analysis = generate_team_report(data)
 
         return {
