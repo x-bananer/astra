@@ -5,6 +5,7 @@ import jwt
 from config import Config
 
 from services.auth_service import get_google_userinfo, resolve_user, create_jwt, get_user, get_curent_user_id
+from services.group_service import get_group
 
 
 auth_bp = Blueprint("auth", __name__)
@@ -57,10 +58,22 @@ def auth_user():
         return user_id_response
 
     user = get_user(user_id_response["user_id"])
+    user_group_data = None
+    if user.group_id:
+        user_group_data = get_group(user.group_id)
+            
+    user_data = {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "avatar": user.avatar,
+        "group": user_group_data,
+        "group_id": user.group_id,
+    }
 
     return {
         "authenticated": True,
-        "user": user
+        "user": user_data
     }
 
 @auth_bp.post("/auth/logout")

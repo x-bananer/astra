@@ -1,4 +1,5 @@
 from flask import request, Blueprint, redirect
+import re
 
 from config import Config
 
@@ -17,15 +18,16 @@ def github_login():
 
     # build the github oauth authorize url and pack repo name into state
     redirect_url = (
-        Config.GITHUB_OAUTH_URL,
+        f"{Config.GITHUB_OAUTH_URL}"
         "?client_id="
         + Config.GITHUB_CLIENT_ID
         + "&redirect_uri="
         + Config.GITHUB_REDIRECT_URI
         + "&scope=repo"
         + "&state="
-        + repo,
+        + repo
     )
+    print(redirect_url)
     return redirect(redirect_url)
 
 @client_bp.get("/auth/github/callback")
@@ -60,7 +62,7 @@ def gitlab_login():
         return {"error": "Pass the owner and name of the repository"}, 400
 
     redirect_url = (
-        Config.GITLAB_OAUTH_URL,
+        f"{Config.GITLAB_OAUTH_URL}"
         f"?client_id={Config.GITLAB_CLIENT_ID}"
         f"&redirect_uri={Config.GITLAB_REDIRECT_URI}"
         f"&response_type=code"
@@ -99,6 +101,13 @@ def gdocs_login():
     
     if not doc_id:
         return {"error": "Pass the link to the document"}, 400
+    
+    # extract pure doc id from full URL or return as-is
+    match = re.search(r"/d/([^/]+)", doc_id)
+    if match:
+        doc_id = match.group(1)
+        
+    print(doc_id)
 
     redirect_url = (
         f"{Config.GDOCS_OAUTH_URL}"

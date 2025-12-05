@@ -53,21 +53,5 @@ def get_curent_user_id():
 
 def get_user(user_id):    
     with Session(engine) as session:
-        user = session.get(User, user_id)
-        
-        user_group_data = None
-        user_data = None
-        
-        if user.group_id:
-            user_group_data = get_group(user.group_id)
-            
-        user_data = {
-            "id": user.id,
-            "email": user.email,
-            "name": user.name,
-            "avatar": user.avatar,
-            "group": user_group_data
-        }
-        
-        return user_data
+        return session.get(User, user_id)
     

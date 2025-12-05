@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-import urllib.parse
+from urllib.parse import quote
 import requests
 
 from config import Config
@@ -34,6 +34,8 @@ def get_gitlab_commits(owner, repo, token):
     date_from = date_to - timedelta(days=MAX_DAYS)
     since = (date_from).isoformat() + "Z"
     
+    encoded = quote(f"{owner}/{repo}", safe="")
+    
     # build URL for the list of recent commits
     repo_commits_url = (
         f"{Config.GITLAB_BASE_API}/projects/{encoded}/repository/commits"
@@ -51,7 +53,6 @@ def get_gitlab_commits(owner, repo, token):
 
     # process each commit from the list
     for commit in repo_commits:
-        encoded = urllib.parse.quote(f"{owner}/{repo}", safe="")
         commit_id = commit.get("id")
         if not commit_id: # skip commits without id for detail request
             continue

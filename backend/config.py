@@ -21,7 +21,7 @@ class Config:
     GDOCS_CLIENT_ID = os.getenv("GDOCS_CLIENT_ID")
     GDOCS_CLIENT_SECRET = os.getenv("GDOCS_CLIENT_SECRET")
     GDOCS_REDIRECT_URI= f"{BASE_API_URL}/auth/gdocs/callback"
-    GDOCS_TOKEN_URL = "https://github.com/login/oauth/access_token"
+    GDOCS_TOKEN_URL = "https://oauth2.googleapis.com/token"
     GDOCS_OAUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
     GDOCS_SCOPE = (
         "https://www.googleapis.com/auth/documents.readonly "
@@ -38,6 +38,7 @@ class Config:
     GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
     GITHUB_OAUTH_URL = "https://github.com/login/oauth/authorize"
     GITHUB_BASE_API = "https://api.github.com"
+    GITHUB_REPO_URL = f"{GITHUB_BASE_API}/repos"
     
     # GitLab
     GITLAB_CLIENT_ID = os.getenv("GITLAB_CLIENT_ID")

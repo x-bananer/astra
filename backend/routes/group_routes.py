@@ -1,12 +1,13 @@
 from flask import Blueprint, request
 
 from services.auth_service import get_user, get_curent_user_id
+from services.group_service import create_group, add_member, remove_member
 
 
 group_bp = Blueprint("groups", __name__)
 
 @group_bp.post("/groups/create")
-def create_group():
+def groups_create():
     data = request.json
     group_name = data.get("name")
     
@@ -19,12 +20,12 @@ def create_group():
         return user_id_response
     
     user = get_user(user_id_response["user_id"])
-
+    print(user)
     result, status = create_group(user, group_name)
     return result, status
 
 @group_bp.post("/groups/add-member")
-def add_member():
+def groups_add_member():
     data = request.json
     email = data.get("email")
 
@@ -38,7 +39,7 @@ def add_member():
     return result, status
 
 @group_bp.post("/groups/remove-member")
-def remove_member():
+def groups_remove_member():
     data = request.json
     user_id_to_remove = data.get("user_id")
 
