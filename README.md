@@ -5,6 +5,8 @@
 
 [![Watch the video](https://img.youtube.com/vi/QWlluvB91OI/maxresdefault.jpg?v=2)](https://www.youtube.com/watch?v=QWlluvB91OI)
 
+*This project is not an official Metropolia project and has been created as a test assignment.*
+
 ASTRA is a small experimental web application designed for Metropolia ICT students as a potential tool for improving group-work awareness. It gathers metadata from a group’s GitHub, Metropolia GitLab, and Google Docs and builds a two-week snapshot of commit timing, edit activity, contributor patterns, and change volume. The system stores cached results for faster access and uses an AI model to interpret these metrics and produce short, data-based observations. ASTRA is intended as a way to explore how student teams might view their workflow through clear statistics and simple AI-generated insights.
 
 ## Foundation of the Project
@@ -46,6 +48,7 @@ ASTRA collects metadata from the tools students already use in their team work t
 Based on the collected data ASTRA provides the group with the following.
 
 **Statistics**
+
 Astra computes raw metrics for the last two weeks, including:
 • commit distribution by day and hour
 • contributor activity and change volume
@@ -54,6 +57,7 @@ Astra computes raw metrics for the last two weeks, including:
 (Statistics refresh at least once per hour or immediately when integrations change.)
 
 **AI Analysis**
+
 The AI layer interprets these metrics and highlights:
 • pacing patterns (steady, bursty, quiet periods)
 • uneven contribution signals
@@ -62,6 +66,7 @@ The AI layer interprets these metrics and highlights:
 (Analysis refreshes at least once per hour or immediately when integrations change.)
 
 **Recommendations**
+
 Based on the interpreted patterns, Astra generates:
 • short practical suggestions to improve pacing
 • tips on splitting work into smaller steps
