@@ -45,8 +45,8 @@ ASTRA produces:
 2. One student creates a group and others join it.
 3. The group connects selected repositories and documents.
 4. ASTRA generates two reports:
-- Statistics report: raw metrics (commit rhythm, contributor activity, active hours, change volume, revision timeline).
-- AI analysis report: interpreted observations, strengths, risks, and small practical suggestions.
+    - Statistics report: raw metrics (commit rhythm, contributor activity, active hours, change volume, revision timeline).
+    - AI analysis report: interpreted observations, strengths, risks, and small practical suggestions.
 5. Reports update regularly based on new commits or document edits.
 
 ## Output Overview
