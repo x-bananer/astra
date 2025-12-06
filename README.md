@@ -5,7 +5,7 @@ ASTRA is an AI-driven system that meant to support Metropolia IT students in org
 
 **Click the image** to watch a short demo video about ASTRA on YouTube:
 
-[![Watch the video](https://img.youtube.com/vi/QWlluvB91OI/maxresdefault.jpg)](https://www.youtube.com/watch?v=QWlluvB91OI)
+[![Watch the video](https://img.youtube.com/vi/QWlluvB91OI/maxresdefault.jpg?v=2)](https://www.youtube.com/watch?v=QWlluvB91OI)
 
 ## Foundation of the Project
 
