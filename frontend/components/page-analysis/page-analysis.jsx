@@ -171,12 +171,62 @@ const PageAnalysis = () => {
                             </div>
                         )}
 
-                        {data.recommendations && data.recommendations.length > 0 && (
+                        {data.forecast && (
                             <div className={styles['page-home__grid-item-5']}>
+                                <div className={styles['page-home__card']}>
+                                    <h2 className={styles['page-home__card-title']}>Forecast</h2>
+                                    <p className={styles['page-home__card-text']}>{data.forecast}</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {data.risks && data.risks.length > 0 && (
+                            <div className={styles['page-home__grid-item-6']}>
+                                <div className={styles['page-home__card']}>
+                                    <h2 className={styles['page-home__card-title']}>Risks</h2>
+                                    <ul className={styles['page-home__card-list']}>
+                                        {data.risks.map((r, i) => (
+                                            <li key={i}>{i + 1}. {r}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+
+                        {data.next_steps && data.next_steps.length > 0 && (
+                            <div className={styles['page-home__grid-item-7']}>
+                                <div className={styles['page-home__card']}>
+                                    <h2 className={styles['page-home__card-title']}>Next steps</h2>
+                                    <ul className={styles['page-home__card-list']}>
+                                        {data.next_steps.map((r, i) => (
+                                            <li key={i}>{i + 1}. {r}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+
+                        
+
+                        {data.recommendations && data.recommendations.length > 0 && (
+                            <div className={styles['page-home__grid-item-8']}>
                                 <div className={styles['page-home__card']}>
                                     <h2 className={styles['page-home__card-title']}>Recommendations</h2>
                                     <ul className={styles['page-home__card-list']}>
                                         {data.recommendations.map((r, i) => (
+                                            <li key={i}>{i + 1}. {r}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+
+                        {data.reflection_prompts && data.reflection_prompts.length > 0 && (
+                            <div className={styles['page-home__grid-item-9']}>
+                                <div className={styles['page-home__card']}>
+                                    <h2 className={styles['page-home__card-title']}>Reflection prompts</h2>
+                                    <ul className={styles['page-home__card-list']}>
+                                        {data.reflection_prompts.map((r, i) => (
                                             <li key={i}>{i + 1}. {r}</li>
                                         ))}
                                     </ul>

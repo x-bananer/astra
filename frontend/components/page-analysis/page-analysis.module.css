@@ -33,20 +33,43 @@
     grid-area: 1 / 1 / 2 / 3;
 }
 
+/* row 2 */
 .page-home__grid-item-2 {
     grid-area: 2 / 1 / 3 / 2;
 }
-
 .page-home__grid-item-3 {
     grid-area: 2 / 2 / 3 / 3;
 }
 
+/* row 3 */
 .page-home__grid-item-4 {
     grid-area: 3 / 1 / 4 / 3;
 }
 
+/* row 4 */
 .page-home__grid-item-5 {
     grid-area: 4 / 1 / 5 / 3;
+}
+
+/* row 5 */
+.page-home__grid-item-6 {
+    grid-area: 5 / 1 / 6 / 2;
+}
+.page-home__grid-item-7 {
+    grid-area: 5 / 2 / 6 / 3;
+}
+
+/* row 6 */
+.page-home__grid-item-8 {
+    grid-area: 6 / 1 / 7 / 2;
+}
+.page-home__grid-item-9 {
+    grid-area: 6 / 2 / 7 / 3;
+}
+
+/* row 7 */
+.page-home__grid-item-10 {
+    grid-area: 7 / 1 / 8 / 3;
 }
 
 .page-home__card {

@@ -94,6 +94,13 @@ def gitlab_callback():
     return redirect(Config.BASE_CLIENT_URL)
 
 
+
+
+
+
+
+
+
 # Google Docs integration (login and adding a document)
 @client_bp.get("/auth/gdocs/login")
 def gdocs_login():
