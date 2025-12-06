@@ -25,7 +25,7 @@ ASTRA uses a simple conceptual model of healthy student collaboration as a refer
 
 ### 2. Automated Data Collection
 
-The system collects metadata — not file contents — from tools students already use:
+The system collects metadata and not file contents from tools students already use:
 - GitHub / GitLab: commit timestamps, authors, change sizes, activity distribution
 - Google Docs: revision history, edit activity, authorship
 - Trello: planned future integration (not yet available)
