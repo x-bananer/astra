@@ -3,7 +3,7 @@
 
 ASTRA is an AI-driven system that meant to support Metropolia IT students in organizing their group work, understanding participation patterns, and strengthening collaboration through structured guidance and reflective feedback.
 
-Watch a short demo video of the project here:
+Click the image to watch a short demo video about ASTRA on YouTube:
 
 [![Watch the video](https://img.youtube.com/vi/QWlluvB91OI/maxresdefault.jpg)](https://www.youtube.com/watch?v=QWlluvB91OI)
 
