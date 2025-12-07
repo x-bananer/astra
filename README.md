@@ -70,7 +70,7 @@ ASTRA is designed as an experimental tool that may:
 - support reflection in student teams,
 - act as a small educational aid for noticing workflow habits through data rather than assumptions.
 
-# Project setup
+## Project setup
 The installation instructions are split into two parts:
 - backend/README.md - describes how to install and run the backend,
 - frontend/README.md - describes how to install and run the frontend.
