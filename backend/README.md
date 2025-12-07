@@ -31,11 +31,7 @@
     - Google Docs API
     - LLM provider
 
-    All keys must be placed in a .env file in the backend directory.
-
-    There is a .env_example file that lists all required variables.
-
-    Copy it and fill in your values:
+    All keys must be placed in a .env file in the backend directory. There is a .env_example file that lists all required variables. Copy it and fill in your values:
 
     `cp .env_example .env`
 
@@ -45,4 +41,4 @@
 
     `python app.py`
 
-The backend runs on: http://localhost:4000. Frontend communicates with the backend through this URL.
+    The backend runs on: http://localhost:4000. Frontend communicates with the backend through this URL.
