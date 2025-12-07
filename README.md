@@ -69,3 +69,10 @@ ASTRA is designed as an experimental tool that may:
 - provide lightweight AI-generated suggestions based on observable activity,
 - support reflection in student teams,
 - act as a small educational aid for noticing workflow habits through data rather than assumptions.
+
+# Project setup
+The installation instructions are split into two parts:
+- backend/README.md - describes how to install and run the backend,
+- frontend/README.md - describes how to install and run the frontend.
+
+Please follow both guides to get the full system running locally.
