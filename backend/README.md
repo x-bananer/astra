@@ -9,40 +9,40 @@
 
 ## How to run the project
 1.	Make sure you are in the backend directory:
-`cd backend`
+    `cd backend`
 
 2.	Create and activate a virtual environment:
-`python3 -m venv venv`
+    `python3 -m venv venv`
 
-MacOS: `source venv/bin/activate`
+    MacOS: `source venv/bin/activate`
 
-Windows: `venv\Scripts\activate`
+    Windows: `venv\Scripts\activate`
 
 3.	Install required dependencies:
 
-`pip install -r requirements.txt`
+    `pip install -r requirements.txt`
 
 4.	Configure environment variables
 
-You must register your own app integrations and obtain API keys for:
-- Google OAuth
-- GitHub API
-- GitLab API
-- Google Docs API
-- LLM provider
+    You must register your own app integrations and obtain API keys for:
+    - Google OAuth
+    - GitHub API
+    - GitLab API
+    - Google Docs API
+    - LLM provider
 
-All keys must be placed in a .env file in the backend directory.
+    All keys must be placed in a .env file in the backend directory.
 
-There is a .env_example file that lists all required variables.
+    There is a .env_example file that lists all required variables.
 
-Copy it and fill in your values:
+    Copy it and fill in your values:
 
-`cp .env_example .env`
+    `cp .env_example .env`
 
-If the keys are missing or incorrect, the backend will not function.
+    If the keys are missing or incorrect, the backend will not function.
 
 5.	Start the backend:
 
-`python app.py`
+    `python app.py`
 
 The backend runs on: http://localhost:4000. Frontend communicates with the backend through this URL.
