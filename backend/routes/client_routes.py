@@ -27,7 +27,7 @@ def github_login():
         + "&state="
         + repo
     )
-    print(redirect_url)
+
     return redirect(redirect_url)
 
 @client_bp.get("/auth/github/callback")
@@ -44,6 +44,7 @@ def github_callback():
     
     user = get_user(user_id_response["user_id"])
     
+    result = github_connect(code, repo, user)
     result = github_connect(code, repo, user)
     
     if "error" in result:
@@ -93,14 +94,6 @@ def gitlab_callback():
     # return user to frontend after successful integration
     return redirect(Config.BASE_CLIENT_URL)
 
-
-
-
-
-
-
-
-
 # Google Docs integration (login and adding a document)
 @client_bp.get("/auth/gdocs/login")
 def gdocs_login():
@@ -109,12 +102,10 @@ def gdocs_login():
     if not doc_id:
         return {"error": "Pass the link to the document"}, 400
     
-    # extract pure doc id from full URL or return as-is
+    # extract doc id from url
     match = re.search(r"/d/([^/]+)", doc_id)
     if match:
         doc_id = match.group(1)
-        
-    print(doc_id)
 
     redirect_url = (
         f"{Config.GDOCS_OAUTH_URL}"

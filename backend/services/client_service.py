@@ -12,6 +12,7 @@ from clients.github_client import github_safe_get
 from clients.gitlab_client import gitlab_safe_get
 from clients.gdocs_client import gdocs_safe_get
 
+# connect a github repo to the current user's group
 def github_connect(code, repo, user):
     # exchange code for access_token
     token_response = requests.post(
@@ -29,6 +30,7 @@ def github_connect(code, repo, user):
     if not github_access_token:
         return {"error": "GitHub authorization failed"}, 400
     
+    # check if the repo can be accessed with this token
     check_repo_url = f"{Config.GITHUB_REPO_URL}/{repo}"
     response = github_safe_get(check_repo_url, github_access_token)
 
@@ -36,7 +38,7 @@ def github_connect(code, repo, user):
         return {"error": "GitHub cannot access this repository. Check owner and repo name."}
     
     with Session(engine) as session:
-        # find existing GitHub client for this group (there can be only one)
+        # find existing github client for this group to replace it
         existing_client = session.exec(
             select(GroupClient).where(
                 GroupClient.group_id == user.group_id,
@@ -44,11 +46,11 @@ def github_connect(code, repo, user):
             )
         ).first()
 
-        # remove old GitHub client if it exists
+        # remove old github client if it exists to avoid duplicates
         if existing_client:
             session.delete(existing_client)
 
-        # create fresh GitHub client for this group
+        # create fresh github client with new token and repo info
         new_client = GroupClient(
             group_id=user.group_id,
             provider="github",
@@ -63,8 +65,9 @@ def github_connect(code, repo, user):
         "status": "OK"
     }
 
+# connect a gitlab project to the current user's group
 def gitlab_connect(code, repo, user):
-     # exchange code for access_token
+    # exchange code for access_token
     token_response = requests.post(
         Config.GITLAB_TOKEN_URL,
         headers={"Accept": "application/json"},
@@ -81,6 +84,7 @@ def gitlab_connect(code, repo, user):
     if not gitlab_access_token:
         return {"error": "GitLab authorization failed"}, 400
     
+    # encode repo name and check if accessible with token
     encoded = quote(repo, safe="")
     check_repo_url = f"{Config.GITLAB_BASE_API}/projects/{encoded}"
     response = gitlab_safe_get(check_repo_url, gitlab_access_token)
@@ -89,7 +93,7 @@ def gitlab_connect(code, repo, user):
         return {"error": "GitLab cannot access this repository. Check owner and repo name."}
 
     with Session(engine) as session:
-        # find existing GitLab client for this group (there can be only one)
+        # find existing gitlab client for this group to replace it
         existing_client = session.exec(
             select(GroupClient).where(
                 GroupClient.group_id == user.group_id,
@@ -97,11 +101,11 @@ def gitlab_connect(code, repo, user):
             )
         ).first()
 
-        # remove old GitLab client if it exists
+        # remove old gitlab client if it exists to avoid duplicates
         if existing_client:
             session.delete(existing_client)
 
-        # create fresh GitLab client for this group
+        # create fresh gitlab client with new token and repo info
         new_client = GroupClient(
             group_id=user.group_id,
             provider="gitlab",
@@ -116,7 +120,8 @@ def gitlab_connect(code, repo, user):
         "status": "OK"
     }
 
-def gdocs_connect(code, doc_id, user):    
+# connect a google docs file to the current user's group
+def gdocs_connect(code, doc_id, user):
     # exchange code for access_token
     response = requests.post(
         Config.GDOCS_TOKEN_URL,
@@ -128,7 +133,7 @@ def gdocs_connect(code, doc_id, user):
             "redirect_uri": Config.GDOCS_REDIRECT_URI,
         },
     )
-    print(response, 'EEEEEE')
+
     try:
         token_response = response.json()
     except ValueError:
@@ -138,6 +143,7 @@ def gdocs_connect(code, doc_id, user):
     if not gdocs_access_token:
         return {"error": "Google authorization failed"}, 400
     
+    # check if the google docs file can be accessed with this token
     check_url = f"{Config.GDRIVE_BASE_API}/files/{doc_id}?fields=id,name"
     response = gdocs_safe_get(check_url, gdocs_access_token)
 
@@ -145,7 +151,7 @@ def gdocs_connect(code, doc_id, user):
         return {"error": "Google Docs file cannot be accessed. Check the document ID."}
 
     with Session(engine) as session:
-        # find existing GitLab client for this group (there can be only one)
+        # find existing gdocs client for this group to replace it
         existing_client = session.exec(
             select(GroupClient).where(
                 GroupClient.group_id == user.group_id,
@@ -153,11 +159,11 @@ def gdocs_connect(code, doc_id, user):
             )
         ).first()
         
-        # remove old GitLab client if it exists
+        # remove old gdocs client if it exists to avoid duplicates
         if existing_client:
             session.delete(existing_client)
 
-        # create fresh GitLab client for this group
+        # create fresh gdocs client with new token and doc info
         new_client = GroupClient(
             group_id=user.group_id,
             provider="gdocs",
@@ -171,4 +177,3 @@ def gdocs_connect(code, doc_id, user):
     return {
         "status": "OK"
     }
-    

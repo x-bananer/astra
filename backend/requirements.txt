@@ -4,9 +4,6 @@ python-dotenv
 google-generativeai
 pydantic
 requests
-
 authlib
 pyjwt
-flask_sqlalchemy
 sqlmodel
-flask-migrate

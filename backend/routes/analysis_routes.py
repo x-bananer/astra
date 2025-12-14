@@ -1,7 +1,4 @@
-from flask import Blueprint, jsonify, request
-import jwt
-
-from config import Config
+from flask import Blueprint, request
 
 from services.analysis_service import get_llm_analysis, get_statistics_analysis
 from services.auth_service import get_curent_user_id

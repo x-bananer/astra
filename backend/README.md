@@ -40,5 +40,7 @@
 5.	Start the backend:
 
     `python app.py`
+    or
+    `flask --app app run --debug --port 4000`
 
     The backend runs on: http://localhost:4000. Frontend communicates with the backend through this URL.

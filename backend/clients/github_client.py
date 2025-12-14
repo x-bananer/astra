@@ -44,7 +44,7 @@ def get_github_commits(owner, repo, token, start_date):
 
     # build URL for the list of recent commits
     repo_commits_url = (
-        f"{Config.GITHUB_BASE_API}/repos/{owner}/{repo}/commits"
+        f"{Config.GITHUB_BASE_API_URL}/repos/{owner}/{repo}/commits"
         f"?since={since}&until={until}&per_page={MAX_COMMITS}"
     )
 
@@ -64,7 +64,7 @@ def get_github_commits(owner, repo, token, start_date):
             continue  # skip commits without sha, aka without id for detail request
 
         # fetch detailed commit information
-        commit_detail_url = f"{Config.GITHUB_BASE_API}/repos/{owner}/{repo}/commits/{sha}"
+        commit_detail_url = f"{Config.GITHUB_BASE_API_URL}/repos/{owner}/{repo}/commits/{sha}"
         commit_detail = github_safe_get(commit_detail_url, token)
 
         if "error" in commit_detail:

@@ -120,7 +120,7 @@ def build_gitlab_stats(commits):
         if author not in contributors:
             contributors[author] = 0
         contributors[author] += 1
-
+        
     # how many lines each author changed in total
     contribution_volume = {}
     for commit in commits:
@@ -155,7 +155,7 @@ def build_gitlab_stats(commits):
     # average commit size per author
     average_by_author = {}
     for author, volume in contribution_volume.items():
-        average_by_author[author] = volume / contributors[author]
+        average_by_author[author] = round(volume / contributors[author], 2)
 
     # biggest commit by number of changed lines
     largest_commit = None
@@ -169,7 +169,7 @@ def build_gitlab_stats(commits):
     # which day had the most commits
     days_count = {}
     for date in parsed_dates:
-        day = date.date().isoformat()
+        day = date.strftime("%d.%m.%Y")
         if day not in days_count:
             days_count[day] = 0
         days_count[day] += 1
@@ -192,8 +192,12 @@ def build_gitlab_stats(commits):
     total_volume = sum(contribution_volume.values())
     volume_share = {}
     for author, volume in contribution_volume.items():
-        volume_share[author] = round(volume / total_volume, 3)
+        volume_share[author] = round(volume / total_volume, 2)
 
+    if largest_commit:
+        largest_commit["date"] = datetime.fromisoformat(
+            largest_commit["date"].replace("Z", "+00:00")
+        ).strftime("%d.%m.%Y")
     return {
         "commits_total": commits_total,
         "contributors": contributors,

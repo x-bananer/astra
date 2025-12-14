@@ -1,6 +1,7 @@
 import os
-from dotenv import load_dotenv
 
+# reads .env file and puts its variables into os.environ
+from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
@@ -31,14 +32,16 @@ class Config:
     # Goofle Drive for Google Docs
     GDRIVE_BASE_API = "https://www.googleapis.com/drive/v3"
     
+    # GitHub
     GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
     GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
     GITHUB_REDIRECT_URI = os.getenv("GITHUB_REDIRECT_URI")
+    GITHUB_BASE_API_URL = "https://api.github.com"
+    GITHUB_BASE_CLIENT_URL = "https://github.com"
     GITHUB_REDIRECT_URI= f"{BASE_API_URL}/auth/github/callback"
-    GITHUB_TOKEN_URL = "https://github.com/login/oauth/access_token"
-    GITHUB_OAUTH_URL = "https://github.com/login/oauth/authorize"
-    GITHUB_BASE_API = "https://api.github.com"
-    GITHUB_REPO_URL = f"{GITHUB_BASE_API}/repos"
+    GITHUB_TOKEN_URL = f"{GITHUB_BASE_CLIENT_URL}/login/oauth/access_token"
+    GITHUB_OAUTH_URL = f"{GITHUB_BASE_CLIENT_URL}/login/oauth/authorize"
+    GITHUB_REPO_URL = f"{GITHUB_BASE_API_URL}/repos"
     
     # GitLab
     GITLAB_CLIENT_ID = os.getenv("GITLAB_CLIENT_ID")

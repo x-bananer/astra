@@ -1,4 +1,4 @@
-from sqlmodel import SQLModel, Field, UniqueConstraint
+from sqlmodel import SQLModel, Field
 
 class GroupClient(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

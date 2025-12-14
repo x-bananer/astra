@@ -160,7 +160,6 @@ def remove_member(requester, user_id_to_remove):
 
     return {"status": "OK"}, 200
 
-
 def remove_client(requester, provider):
     if requester.group_id is None:
         return {"error": "You need to be in a group to remove integrations."}, 400
