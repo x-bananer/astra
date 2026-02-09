@@ -1,7 +1,7 @@
 # ASTRA
 *Automated Student Teamwork Regulating Assistant*
 
-*This project is not an official Metropolia project and has been created as a test assignment.*
+*This project is not an official Metropolia project.*
 
 ASTRA is an experimental web application designed for Metropolia ICT students as a potential tool for understanding group-work patterns. It gathers metadata from GitHub, Metropolia GitLab, and Google Docs and builds a two-week snapshot of commit timing, edit activity, contributor patterns, and change volume. The system stores cached results for faster loading and uses an AI model to generate simple interpretations based on these metrics. ASTRA is a prototype exploring how student teams might view their workflow through clear statistics and lightweight AI insights and benefit from it.
 
